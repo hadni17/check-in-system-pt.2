@@ -6,8 +6,6 @@ const FrontPage = {
 
 
         <div class="grid sm:grid-cols-2 grid-cols-1 gap-x-2 gap-y-4 items-center w-full mt-9">
-          <a href="/">
-          </a>
           <button name="button check in" class="shadow-md bg-gradient-to-b from-green-300 to-blue-300 hover:bg-gradient-to-b hover:from-green-400 hover:to-blue-400 rounded-md h-40 hover:shadow-lg text-blue-900">
             <a href="/">
               <span class="iconify mx-auto text-4xl" data-icon="la:user-check"></span>

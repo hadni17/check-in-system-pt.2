@@ -12,15 +12,15 @@ const scanPage = {
         </div>
 
         <! -- Scanner -->
-        <div class="relative w-3/4 p-6 mt-20 shadow rounded-xl bg-white mx-auto">
-          <video id="preview w-full rounded-xl" >
+        <div class="relative w-5/6 p-6 mt-16 shadow rounded-xl bg-white mx-auto">
+          <video id="preview" class="w-full rounded-xl shadow-lg" >
 
           </video>
-          <p class="mt-3" style="font-family:'Lora', serif;text-align: center;font-size: 11px;">arahkan QR kedalam kotak.</p>
+          <p class="mt-3" style="font-family:'Lora', serif;text-align: center;font-size: 11px;">Arahkan QR kedalam kotak, dong!</p>
         </div>
 
 
-        <div class="w-3/4 mt-5 mx-auto">
+        <div class="w-5/6 mt-5 mx-auto">
            <div class="bg-white flex items-center rounded-xl shadow-xl mx-auto py-3">
                <input class="text-sm rounded-xl w-full px-6 text-gray-700 leading-tight focus:outline-none" id="text" type="text" placeholder="Search Your Participant ID">
              <div class="">

@@ -21,7 +21,7 @@ const FrontPage = {
           </button>
 
           <button name="button check point" class="shadow-md shadow-md bg-white rounded-lg h-40 h-40 hover:shadow-lg text-yellow-800">
-            <a href="/">
+            <a href="/#/participants">
               <span class="iconify mx-auto text-5xl" data-icon="ph:users-four-light"></span>
               <span class="">Participant</span>
             </a>

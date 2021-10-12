@@ -28,7 +28,7 @@ const FrontPage = {
           </button>
 
           <button name="button check point" class="shadow-md shadow-md bg-white rounded-lg h-40 hover:shadow-lg sm:text-yellow-800 text-gray-700">
-            <a href="/">
+            <a href="/#/session">
               <span class="iconify mx-auto text-3xl" data-icon="bi:calendar2-check"></span>
               <span class="">Session</span>
             </a>

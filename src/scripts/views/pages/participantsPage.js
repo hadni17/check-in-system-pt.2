@@ -2,290 +2,100 @@ const participantPage = {
   async render() {
     return `
         <section class="mx-auto pb-40">
-        <div class="flex items-center justify-between pt-2">
-          <button>
-            <a href="/#/">
-              <span class="iconify text-4xl" data-icon="bi:arrow-left-short"></span>
-            </a>
-          </button>
-          <h1 class="text-center font-bold text-base">List Participants</h1>
-          <div></div>
-        </div>
+          <div class="flex items-center justify-between pt-2">
+            <button>
+              <a href="/#/">
+                <span class="iconify text-4xl" data-icon="bi:arrow-left-short"></span>
+              </a>
+            </button>
+            <h1 class="text-center font-bold text-base">List Participants</h1>
+            <div></div>
+          </div>
+
+          <div class="mt-2">
+            <div class="bg-white flex items-center rounded-xl shadow-xl mx-auto px-2 text-gray-600">
+                <input class="rounded-xl w-full py-3 px-6 text-gray-700 leading-tight focus:outline-none" id="text" type="text" placeholder="Participant ID/Link">
+
+              <!--ICONIFY FILTER-->
+              <div class="filter md:filter-none px-4">
+                <a href="#">
+                 <span class="iconify" data-icon="bi:filter-circle-fill"></span>
+                </a>
+              </div>
+
+                <!--ICONIFY SEARCH-->
+              <div class="">
+                <a href="DashPart_Detail.html">
+                  <span class="iconify" data-icon="akar-icons:search"></span>
+                </a>
+              </div>
+
+              <!--ICONIFY QR CODE-->
+              <div class="px-2">
+                <a href="DashPart_Scan.html">
+                  <span class="iconify" data-icon="ic:outline-qr-code-scanner"></span>
+                </a>
+              </div>
+
+            </div>
+          </div>
 
           <div class="overflow-x-scroll	bg-white mx-auto rounded-xl mt-10 py-4">
-                <table class="text-xs table-auto w-full border-solid divide-y divide-black" >
-                    <thead>
-                    <tr >
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Id tiket</th>
-                        <th>Jns. Peserta</th>
-                        <th >Status</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr>
-                          <td>1</td>
-                          <td class=" ">Agung Saepudin</td>
-                          <td>D1293045</td>
-                          <td>Public</td>
-                          <td>Uncheck</td>
-                          <td>
-                            <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                Detail
-                            </button>
-                          </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td>2</td>
-                            <td>Ahmad Syauqi D</td>
-                            <td>D102934D</td>
-                            <td>Guest</td>
-                            <td>Checkout</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Alvin Simbolon</td>
-                            <td>D188302X</td>
-                            <td>Public</td>
-                            <td>Uncheck</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td>4</td>
-                            <td>Anggun Ayu L</td>
-                            <td>D120495F</td>
-                            <td>Public</td>
-                            <td>Check-In</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Arafat Maku</td>
-                            <td>D212129S</td>
-                            <td>Public</td>
-                            <td>Checkout</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td>6</td>
-                            <td>Ari Sukarizo</td>
-                            <td>D212129S</td>
-                            <td>Guest</td>
-                            <td>Uncheck</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>Arnoud Sarayar</td>
-                            <td>D129304S</td>
-                            <td>Public</td>
-                            <td>Uncheck</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td>8</td>
-                            <td>Bela Kartika</td>
-                            <td>D102934D</td>
-                            <td>Public</td>
-                            <td>Checkout</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td>Bongson Pane</td>
-                            <td>D188302X</td>
-                            <td>Media</td>
-                            <td>Uncheck</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td>10</td>
-                            <td>Edwina Christy</td>
-                            <td>D120495F</td>
-                            <td>Public</td>
-                            <td>Check-In</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>11</td>
-                            <td>Fika Febrika</td>
-                            <td>D212129S</td>
-                            <td>Public</td>
-                            <td>Checkout</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td>12</td>
-                            <td>Frumentius D</td>
-                            <td>D212129S</td>
-                            <td>Media</td>
-                            <td>Uncheck</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>13</td>
-                            <td>Indah P. Larasati</td>
-                            <td>D129304S</td>
-                            <td>Guest</td>
-                            <td>Checkout</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td>14</td>
-                            <td>Jerome Polen</td>
-                            <td>D102934D</td>
-                            <td>Guest</td>
-                            <td>Check-In</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>15</td>
-                            <td>Mina Rafid</td>
-                            <td>D188302X</td>
-                            <td>Public</td>
-                            <td>Checkout</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td>16</td>
-                            <td>Muhammad Sultan</td>
-                            <td>D120495F</td>
-                            <td>Public</td>
-                            <td>Uncheck</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>17</td>
-                            <td>Nabillah Adani</td>
-                            <td>D212129S</td>
-                            <td>Media</td>
-                            <td>Checkout</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td>18</td>
-                            <td>Novia Samosir</td>
-                            <td>D212129S</td>
-                            <td>Public</td>
-                            <td>Uncheck</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>19</td>
-                            <td>Shelzi Grayxena</td>
-                            <td>D129304S</td>
-                            <td>Public</td>
-                            <td>Checkout</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-100">
-                            <td>20</td>
-                            <td>Tamia Indah I</td>
-                            <td>D102934D</td>
-                            <td>Media</td>
-                            <td>Uncheck</td>
-                            <td>
-                              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 py-1 rounded-full my-2">
-                                  Detail
-                              </button>
-                            </td>
-                        </tr>
-                </table>
-                <div class="my-10 flex items-center justify-between">
-                  <h2 class="ml-10">
-                    1 - 20 of 100
-                  </h2>
-                  <h2 class="inline-flex mr-10">
-                    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-                      <span class="iconify" data-icon="bx:bxs-left-arrow"></span>
-                    </button>
-                    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-                      <span class="iconify" data-icon="bx:bxs-right-arrow"></span>
-                    </button>
-                  </h2>
-                </div>
+            <table class="text-xs table-auto w-full border-solid divide-y divide-black" >
+                <thead>
+                <tr >
+                    <th>Nama</th>
+                    <th>Id tiket</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="participant" class="text-center">
+
+                </tbody>
+            </table>
           </div>
         </section>
     `;
   },
 
   async afterRender() {
+    async function getData(url){
+      const response = await fetch(url);
 
+      const { data } = await response.json()
+
+      console.log(data)
+
+      return data;
+
+      console.log( await response.json());
+    };
+
+    //get API
+  getData('http://192.168.18.82:8055/items/customer').then(result => {
+    //console.log(result);
+
+      const elementHtml = document.querySelector('#participant');
+       let nomor = 1;
+
+       const elementParticipant = data =>`
+         <tr>
+           <td>${ data.customer_name }</td>
+           <td>${ data.customer_id }</td>
+           <td>
+           <a href="/#/participant/asdad">
+             <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-3 py-1 md:py-2 md:px-4 rounded-full my-2">
+             Detail
+           </button>
+           </a>
+           </td>
+         </tr>`
+         ;
+
+      result.map(data => {
+       elementHtml.innerHTML += elementParticipant(data);
+      });
+    })
   }
 };
 

@@ -11,33 +11,26 @@ const FrontPage = {
           </h1>
         </a>
 
+        <div class="grid gap-y-4 items-center w-full mt-10">
 
-        <div class="grid sm:grid-cols-2 grid-cols-1 gap-x-2 gap-y-4 items-center w-full mt-9">
-          <button name="button check in" class="shadow-md bg-white rounded-lg h-40 hover:shadow-lg text-gray-700">
-            <a href="/#/scan">
-              <span class="iconify mx-auto text-4xl" data-icon="la:user-check"></span>
-              <span class="">Scan</span>
-            </a>
-          </button>
+        <button name="button check in" class="w-full shadow-md bg-white rounded-2xl h-36 hover:shadow-lg text-gray-700">
+          <a href="/#/scan">
+            <span class="iconify mx-auto text-4xl" data-icon="iconoir:user-scan"></span>
+            <span class="">Scan Peserta</span>
+          </a>
+        </button>
 
-          <button name="button check point" class="shadow-md shadow-md bg-white rounded-lg h-40 h-40 hover:shadow-lg text-yellow-800">
-            <a href="/#/participants">
-              <span class="iconify mx-auto text-5xl" data-icon="ph:users-four-light"></span>
-              <span class="">Participant</span>
-            </a>
-          </button>
-
-          <button name="button check point" class="shadow-md shadow-md bg-white rounded-lg h-40 hover:shadow-lg sm:text-yellow-800 text-gray-700">
+          <button name="button check point" class="w-full shadow-md shadow-md bg-white rounded-2xl h-36 hover:shadow-lg sm:text-yellow-800 text-gray-700">
             <a href="/#/session">
               <span class="iconify mx-auto text-3xl" data-icon="bi:calendar2-check"></span>
               <span class="">Session</span>
             </a>
           </button>
 
-          <button name="button check point" class="shadow-md shadow-md bg-white rounded-lg h-40 h-40 hover:shadow-lg text-yellow-800 sm:text-gray-700">
-            <a href="/">
-              <span class="iconify mx-auto text-5xl" data-icon="healthicons:i-schedule-school-date-time-outline"></span>
-              <span class="">Merchandise</span>
+          <button name="button check point" class="w-full shadow-md shadow-md bg-white rounded-2xl h-36 hover:shadow-lg text-gray-700">
+            <a href="/#/participants">
+              <span class="iconify mx-auto text-5xl" data-icon="ph:users-four"></span>
+              <span class="">Participants</span>
             </a>
           </button>
         </div>

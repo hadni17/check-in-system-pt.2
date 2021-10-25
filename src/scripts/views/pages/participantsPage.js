@@ -12,6 +12,13 @@ const participantPage = {
             <div></div>
           </div>
 
+          <div class="mx-auto my-8 flex items-center justify-center font-semibold">
+            <h2>Checked In</h2>
+            <h3 class="mx-3 text-lg text-yellow-700">
+              433
+            </h3>
+          </div>
+
           <div class="mt-2">
             <div class="bg-white flex items-center rounded-xl shadow-xl mx-auto px-2 text-gray-600">
                 <input class="rounded-xl w-full py-3 px-6 text-gray-700 leading-tight focus:outline-none" id="text" type="text" placeholder="Participant ID/Link">
@@ -72,7 +79,7 @@ const participantPage = {
     };
 
     //get API
-  getData('http://192.168.18.82:8055/items/customer').then(result => {
+  getData('http://192.168.18.80:8055/items/customer').then(result => {
     //console.log(result);
 
       const elementHtml = document.querySelector('#participant');

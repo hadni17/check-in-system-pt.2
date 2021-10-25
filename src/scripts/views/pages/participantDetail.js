@@ -110,7 +110,85 @@ const participantDetail = {
     `;
   },
   async afterRender() {
+    async  function getData(url){
+        const response = await fetch(url);
+        const {data} =  await response.json();
+        return data;
 
+    };
+
+    getData('http://192.168.18.80:8055/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=2').then(result =>{
+
+        const elementName = document.querySelector('#customer');
+        const customerName =(data) =>`
+            <p class="text-gray-400 pt-4 font-medium text-xs">PARTICIPANT NAME</p>
+            <p class="font-bold  text-xl">${result[0].customer_id.customer_name}</p>
+        `;
+        const elementId = document.querySelector('#participant');
+        const customerId = (data) => `
+            <p class="text-gray-400 pt-4 font-medium text-xs">ID PARTICIPANT</p>
+            <p class="font-bold text-md">${result[0].customer_id.customer_id}</p>
+        `;
+        const elementDesc = document.querySelector('#ticket');
+        const description =(data) =>`
+             <p class="text-gray-400 pt-4 font-medium text-xs">TICKET TYPE</p>
+             <p class="font-bold text-md">${result[0].ticket_id.ticket_type}</p>
+         `;
+    result.map(data=>{
+        elementName.innerHTML = customerName(data);
+        elementId.innerHTML = customerId(data);
+        elementDesc.innerHTML = description(data);
+    });
+    })
+
+    async function getDataRegistration(url){
+        const response = await fetch(url);
+        const {data} =  await response.json();
+        return data;
+
+    };
+    getDataRegistration('http://192.168.18.68:8055/items/registration?filter[id_participant]=2').then(result =>{
+
+        const elementHtml = document.querySelector('#session');
+        const session =(data) =>`
+        <div class="font-bold text-md pb-6">
+            <p>${data.id_session}</p>
+        </div>
+        `;
+        const validatedOn = document.querySelector('#registration');
+        const registration =(data) =>`
+            <p class="font-bold text-md">${data.validated_on}</p>
+         `;
+        result.map(data=>{
+           elementHtml.innerHTML += session(data);
+           validatedOn.innerHTML += registration(data);
+        });
+    })
+
+    async function getDataMerch(url){
+        const response = await fetch(url);
+        const {data} =  await response.json();
+        return data;
+
+    };
+    getDataRegistration('http://192.168.18.83:8055/items/peserta_x_merch_eligible?fields=id_peserta_x_merch,id_merch_eligible.id_merch.nama_merch&filter[id_peserta_x_merch]=2').then(result =>{
+        // console.log(result.id_merch_eligible)
+        result.map(data=>{
+            // console.log(data.id_merch_eligible.id_merch.nama_merch)
+
+            const elementHtml = document.querySelector('#merch');
+            const merchandise =(data) =>`
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label pl-2 font-bold text-md" for="flexCheckDefault">
+                        ${data.id_merch_eligible.id_merch.nama_merch}
+                    </label>
+            </div>
+            `;
+
+            elementHtml.innerHTML += merchandise(data);
+        });
+    })
   }
 };
 

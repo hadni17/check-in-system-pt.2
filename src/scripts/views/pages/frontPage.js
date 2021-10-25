@@ -13,26 +13,26 @@ const FrontPage = {
 
         <div class="grid gap-y-4 items-center w-full mt-10">
 
-        <button name="button check in" class="w-full shadow-md bg-white rounded-2xl h-36 hover:shadow-lg text-gray-700">
-          <a href="/#/scan">
-            <span class="iconify mx-auto text-4xl" data-icon="iconoir:user-scan"></span>
-            <span class="">Scan Peserta</span>
-          </a>
-        </button>
+        <a href="/#/active-session/sadsad" class="w-full h-full">
+          <button name="button check in" class="w-full shadow-md bg-white rounded-2xl h-36 hover:shadow-lg text-gray-700">
+              <span class="iconify mx-auto text-4xl" data-icon="iconoir:user-scan"></span>
+              <span class="">Scan Peserta</span>
+          </button>
+        </a>
 
+        <a href="/#/participants" class="w-full h-full">
+          <button name="button check point" class="w-full shadow-md shadow-md bg-white rounded-2xl h-36 hover:shadow-lg text-gray-700">
+              <span class="iconify mx-auto text-5xl" data-icon="ph:users-four-light"></span>
+              <span class="">Participants</span>
+          </button>
+        </a>
+
+        <a href="/#/session" class="w-full h-full">
           <button name="button check point" class="w-full shadow-md shadow-md bg-white rounded-2xl h-36 hover:shadow-lg sm:text-yellow-800 text-gray-700">
-            <a href="/#/session">
               <span class="iconify mx-auto text-3xl" data-icon="bi:calendar2-check"></span>
               <span class="">Session</span>
-            </a>
           </button>
-
-          <button name="button check point" class="w-full shadow-md shadow-md bg-white rounded-2xl h-36 hover:shadow-lg text-gray-700">
-            <a href="/#/participants">
-              <span class="iconify mx-auto text-5xl" data-icon="ph:users-four"></span>
-              <span class="">Participants</span>
-            </a>
-          </button>
+        </a>
         </div>
 
         <div class="flex justify-center items-center mt-14 text-xs text-gray-600">

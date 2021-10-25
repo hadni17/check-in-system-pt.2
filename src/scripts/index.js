@@ -1,4 +1,5 @@
 import 'regenerator-runtime';
+import '../styles/style.css';
 
 import App from './views/app';
 import swRegister from './utils/sw-register';

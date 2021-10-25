@@ -6,7 +6,7 @@ const FrontPage = {
           <div class="w-12 h-12">
             <img src="lumintu.svg">
           </div>
-          <h1 class="ml-2 font-medium text-gray-800 sm:text-lg text-base" style="font-family: 'Pacifico', cursive;">
+          <h1 class="title-heading ml-2 font-medium text-gray-800 sm:text-lg text-base" style="font-family: 'Pacifico', cursive;">
             Lumintu Event
           </h1>
         </a>

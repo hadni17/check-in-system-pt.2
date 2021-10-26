@@ -1,3 +1,5 @@
+import getData from '../../utils/getDataApi';
+
 const participantPage = {
   async render() {
     return `
@@ -66,19 +68,7 @@ const participantPage = {
   },
 
   async afterRender() {
-    async function getData(url){
-      const response = await fetch(url);
-
-      const { data } = await response.json()
-
-      console.log(data)
-
-      return data;
-
-      console.log( await response.json());
-    };
-
-    //get API
+    
   getData('http://192.168.18.68:8055/items/customer').then(result => {
     //console.log(result);
 

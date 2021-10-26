@@ -1,4 +1,5 @@
 import UrlParser from '../../routes/urlParser';
+import GetData from '../../utils/getDataApi';
 
 const participantDetail = {
   async render() {
@@ -59,18 +60,10 @@ const participantDetail = {
     `;
   },
   async afterRender() {
-    const url = UrlParser.parseActiveUrlWithoutCombiner()
-    console.log(url.id)
-
-
-    async  function getData(url){
-      const response = await fetch(url);
-      const {data} =  await response.json();
-      return data;
-    };
+    const { id } = UrlParser.parseActiveUrlWithoutCombiner()
 
     // Get Data Costumer
-    getData(`http://192.168.18.68:8055/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${url.id}`).then(result =>{
+    GetData(`http://192.168.18.68:8055/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${id}`).then(result =>{
       const elementName = document.querySelector('#custumer');
       const customerName = (data) =>`
         <div class="w-9/12">
@@ -101,7 +94,7 @@ const participantDetail = {
     })
 
     // Get Data Registration
-    getData(`http://192.168.18.60:8055/items/registration?filter[id_participant]=${url.id}&aggregate[min]=validated_on`).then(result =>{
+    GetData(`http://192.168.18.60:8055/items/registration?filter[id_participant]=${id}&aggregate[min]=validated_on`).then(result =>{
 
       const validatedOn = document.querySelector('#registration');
       const registration =(data) =>`
@@ -114,7 +107,7 @@ const participantDetail = {
     })
 
     // Get data Merch
-    getData(`http://192.168.18.65:8055/items/peserta_x_merch_eligible?fields=id_peserta_x_merch,id_merch_eligible.id_merch.nama_merch&filter[id_peserta_x_merch]=${url.id}`).then(result =>{
+    GetData(`http://192.168.18.65:8055/items/peserta_x_merch_eligible?fields=id_peserta_x_merch,id_merch_eligible.id_merch.nama_merch&filter[id_peserta_x_merch]=${id}`).then(result =>{
         // console.log(result.id_merch_eligible)
         result.map(data=>{
             // console.log(data.id_merch_eligible.id_merch.nama_merch)
@@ -122,7 +115,7 @@ const participantDetail = {
             const elementHtml = document.querySelector('#merch');
             const merchandise =(data) =>`
             <div class="form-check text-xs block">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+              <input class="form-check-input" type="checkbox" value="${data.id_merch_eligible.id_merch.nama_merch}" id="flexCheckDefault">
                 <label class="form-check-label pl-2 font-medium truncate" for="flexCheckDefault">
                     ${data.id_merch_eligible.id_merch.nama_merch}
                 </label>

@@ -90,7 +90,7 @@ const participantPage = {
            <td>${ data.customer_name }</td>
            <td>${ data.customer_id }</td>
            <td>
-           <a href="/#/participant/asdad">
+           <a href="/#/participant/${data.customer_id}">
              <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-3 py-1 md:py-2 md:px-4 rounded-full my-2">
              Detail
            </button>

@@ -79,7 +79,7 @@ const participantPage = {
     };
 
     //get API
-  getData('http://192.168.18.80:8055/items/customer').then(result => {
+  getData('http://192.168.18.68:8055/items/customer').then(result => {
     //console.log(result);
 
       const elementHtml = document.querySelector('#participant');

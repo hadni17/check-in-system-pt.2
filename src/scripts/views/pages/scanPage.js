@@ -35,10 +35,10 @@ const scanPage = {
 
     async function onScanSuccess(decodedText, decodedResult) {
       // handle the scanned code as you like, for example:
-      alert(decodedText);
+      window.location.replace(`/#/participant/${decodedText}`);
       console.log(`Code matched = ${decodedText}`, decodedResult);
     }
-    
+
     async function onScanFailure(error) {
       // handle scan failure, usually better to ignore and keep scanning.
       // for example:
@@ -47,9 +47,9 @@ const scanPage = {
 
     const html5QrcodeScanner = new Html5QrcodeScanner(
       "preview", { fps: 10, qrbox: 200 }, /* verbose= */ false);
-    
+
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-    
+
   }
 };
 

@@ -1,6 +1,7 @@
 import UrlParser from '../../routes/urlParser';
 import GetData from '../../utils/getDataApi';
 
+
 const participantDetail = {
   async render() {
     return `
@@ -8,9 +9,9 @@ const participantDetail = {
 
       <!-- Navigation -->
         <div class="flex items-center justify-between">
-          <a href="/#/participants" class="pl-5">
+          <button onClick="window.history.back();" class="pl-5">
               <span class="iconify text-4xl" data-icon="bi:arrow-left-short"></span>
-          </a>
+          </button>
           <h1 class="mx-auto font-semibold">Participant Detail</h1>
           <div></div>
         </div>
@@ -60,7 +61,7 @@ const participantDetail = {
     `;
   },
   async afterRender() {
-    const { id } = UrlParser.parseActiveUrlWithoutCombiner()
+    const { id } = UrlParser.parseActiveUrlWithoutCombiner();
 
     // Get Data Costumer
     GetData(`http://192.168.18.68:8055/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${id}`).then(result =>{

@@ -28,9 +28,15 @@ const participantDetail = {
                 <!--LEFT-->
                 <div>
                   <!--ID-->
-                  <div id="participant"></div>
+                  <div id="participant">
+                    <div class="spinner">
+                      <div class="spinner-2"></div>
+                    </div>
+                  </div>
 
                   <div id="ticket"></div>
+
+                  <div id="session"></div>
 
                 </div>
 
@@ -48,6 +54,10 @@ const participantDetail = {
           <form>
               <p class="text-gray-400 py-4 font-medium text-xs">MERCHANDISE</p>
 
+              <div>
+
+              </div>
+
               <div id="merch">
 
               </div>
@@ -64,7 +74,7 @@ const participantDetail = {
     const { id } = UrlParser.parseActiveUrlWithoutCombiner();
 
     // Get Data Costumer
-    GetData(`http://192.168.18.68:8055/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${id}`).then(result =>{
+    GetData(`http://192.168.18.226:8055/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${id}`).then(result =>{
       const elementName = document.querySelector('#custumer');
       const customerName = (data) =>`
         <div class="w-9/12">
@@ -95,7 +105,7 @@ const participantDetail = {
     })
 
     // Get Data Registration
-    GetData(`http://192.168.18.60:8055/items/registration?filter[id_participant]=${id}&aggregate[min]=validated_on`).then(result =>{
+    GetData(`http://192.168.18.54:8055/items/registration?filter[id_participant]=${id}&aggregate[min]=validated_on`).then(result =>{
 
       const validatedOn = document.querySelector('#registration');
       const registration =(data) =>`
@@ -127,6 +137,8 @@ const participantDetail = {
         });
     });
 
+    // Get Data session
+    GetData()
 
   }
 };

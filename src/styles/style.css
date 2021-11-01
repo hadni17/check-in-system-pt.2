@@ -1,8 +1,26 @@
 #preview__scan_region img {
     margin: auto;
-} 
+}
 
 
 #preview__dashboard_section_swaplink{
     visibility: hidden;
 }
+
+.spinner {
+  top: 50vh;
+  left: 50%;
+  position: fixed;
+  transform: translateX(-50%);
+}
+
+.spinner-2 {
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:8px solid;
+  border-color:lightblue;
+  border-right-color: orange;
+  animation:s2 1s infinite linear;
+}
+@keyframes s2 {to{transform: rotate(1turn)}}

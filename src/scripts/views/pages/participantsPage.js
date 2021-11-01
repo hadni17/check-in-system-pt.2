@@ -14,11 +14,9 @@ const participantPage = {
             <div></div>
           </div>
 
-          <div class="mx-auto my-8 flex items-center justify-center font-semibold">
-            <h2>Checked In</h2>
-            <h3 class="mx-3 text-lg text-yellow-700">
-              433
-            </h3>
+          <!-- Status Check in -->
+          <div id="checkInStatus" class="mx-auto my-8 flex items-center justify-center font-semibold">
+
           </div>
 
           <div class="mt-2">
@@ -59,7 +57,9 @@ const participantPage = {
                 </tr>
                 </thead>
                 <tbody id="participant" class="text-center">
-
+                  <div class="spinner">
+                    <div class="spinner-2"></div>
+                  </div>
                 </tbody>
             </table>
           </div>
@@ -68,31 +68,49 @@ const participantPage = {
   },
 
   async afterRender() {
-    
-  getData('http://192.168.18.68:8055/items/customer').then(result => {
-    //console.log(result);
+  const elementParticipant = document.querySelector('#participant');
+  const checkInStatusElement = document.querySelector('#checkInStatus');
 
-      const elementHtml = document.querySelector('#participant');
-       let nomor = 1;
+  const elementStatusCheckIn = (data) => `
+      <h2>Checked In</h2>
+      <h3 class="mx-3 text-lg text-yellow-700">
+        ${ data }
+      </h3>
+  `;
 
-       const elementParticipant = data =>`
-         <tr>
-           <td>${ data.customer_name }</td>
-           <td>${ data.customer_id }</td>
-           <td>
-           <a href="/#/participant/${data.customer_id}">
-             <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-3 py-1 md:py-2 md:px-4 rounded-full my-2">
-             Detail
-           </button>
-           </a>
-           </td>
-         </tr>`
-         ;
+   const dataParticipants = data =>`
+     <tr>
+       <td>${ data.customer_name }</td>
+       <td>${ data.customer_id }</td>
+       <td>
+       <a href="/#/participant/${data.customer_id}">
+         <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-3 py-1 md:py-2 md:px-4 rounded-full my-2">
+         Detail
+       </button>
+       </a>
+       </td>
+     </tr>`
+   ;
 
-      result.map(data => {
-       elementHtml.innerHTML += elementParticipant(data);
-      });
+  Promise.all([
+    getData('http://192.168.18.226:8055/items/customer'),
+    getData('http://192.168.18.54:8055/items/registration?aggregate[countDistinct]=id_participant&filter[validated_on][_between]=[2020-01-1,2200-12-12]')
+  ]).then(async([res1, res2]) => {
+
+    res1.map((data) => {
+      elementParticipant.innerHTML += dataParticipants(data);
+    });
+
+    res2.map((data) => {
+      console.log(data.countDistinct.id_participant)
+      checkInStatusElement.innerHTML = elementStatusCheckIn(data.countDistinct.id_participant);
     })
+
+  }).catch((err) => {
+    console.log(err);
+  })
+
+
   }
 };
 

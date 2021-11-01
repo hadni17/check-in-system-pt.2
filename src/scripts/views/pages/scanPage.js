@@ -17,10 +17,10 @@ const scanPage = {
           </div>
 
          <div class="mt-8">
-            <form class="bg-white flex w-4/5 items-center rounded-xl shadow-xl mx-auto">
-                <input class="rounded-xl w-full py-1 px-6 text-gray-700 leading-tight focus:outline-none" id="cam-qr-result" type="text" placeholder="Search Your Participant ID">
+            <form class="bg-white flex items-center rounded-xl shadow-xl mx-auto">
+                <input id="id-code" class="rounded-xl w-full py-1 px-6 text-gray-700 leading-tight focus:outline-none" id="cam-qr-result" type="text" placeholder="Search Your Participant ID">
               <div class="p-4">
-                <button type="submit" class="text-white rounded-full p-2 hover:bg-blue-400 focus:outline-none w-12 h-12 flex items-center justify-center">
+                <button id="buttonForm" type="submit" class="text-white rounded-full p-2 hover:bg-blue-400 focus:outline-none w-12 h-12 flex items-center justify-center">
                   <span class="iconify text-2xl text-gray-700" data-icon="bx:bx-search-alt"></span>
                 </button>
               </div>
@@ -49,7 +49,21 @@ const scanPage = {
 
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
-    // const getValue = 
+    const buttonSubmit = document.querySelector('#buttonForm');
+
+    buttonSubmit.addEventListener('click', () => {
+      const getValue = document.querySelector('#id-code').value;
+
+      console.log(getValue);
+
+      if (getValue === '') {
+        return;
+      } else {
+        window.location.replace(`/#/participant/${getValue}`);
+      }
+
+      document.querySelector('#id-code').value = '';
+    })
 
   }
 };

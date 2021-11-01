@@ -1,4 +1,6 @@
 import getData from '../../utils/getDataApi';
+import { elementStatusCheckIn } from '../templates/elementStatusCheckIn';
+import { elementParticipants } from '../templates/elementParticipants';
 
 const participantPage = {
   async render() {
@@ -57,9 +59,6 @@ const participantPage = {
                 </tr>
                 </thead>
                 <tbody id="participant" class="text-center">
-                  <div class="spinner">
-                    <div class="spinner-2"></div>
-                  </div>
                 </tbody>
             </table>
           </div>
@@ -71,26 +70,6 @@ const participantPage = {
   const elementParticipant = document.querySelector('#participant');
   const checkInStatusElement = document.querySelector('#checkInStatus');
 
-  const elementStatusCheckIn = (data) => `
-      <h2>Checked In</h2>
-      <h3 class="mx-3 text-lg text-yellow-700">
-        ${ data }
-      </h3>
-  `;
-
-   const dataParticipants = data =>`
-     <tr>
-       <td>${ data.customer_name }</td>
-       <td>${ data.customer_id }</td>
-       <td>
-       <a href="/#/participant/${data.customer_id}">
-         <button class="bg-blue-500 hover:bg-gray-700 text-white font-bold px-3 py-1 md:py-2 md:px-4 rounded-full my-2">
-         Detail
-       </button>
-       </a>
-       </td>
-     </tr>`
-   ;
 
   Promise.all([
     getData('http://192.168.18.226:8055/items/customer'),
@@ -98,11 +77,10 @@ const participantPage = {
   ]).then(async([res1, res2]) => {
 
     res1.map((data) => {
-      elementParticipant.innerHTML += dataParticipants(data);
+      elementParticipant.innerHTML += elementParticipants(data);
     });
 
     res2.map((data) => {
-      console.log(data.countDistinct.id_participant)
       checkInStatusElement.innerHTML = elementStatusCheckIn(data.countDistinct.id_participant);
     })
 

@@ -1,6 +1,6 @@
 import getData from '../../utils/getDataApi';
-import { elementStatusCheckIn } from '../templates/elementStatusCheckIn';
-import { elementParticipants } from '../templates/elementParticipants';
+import { elementStatusCheckIn } from '../templates/participantList/elementStatusCheckIn';
+import { elementParticipants } from '../templates/participantList/elementParticipants';
 
 const participantPage = {
   async render() {

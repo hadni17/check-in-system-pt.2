@@ -1,5 +1,6 @@
 import UrlParser from '../../routes/urlParser';
 import GetData from '../../utils/getDataApi';
+import { participantName, participantId, description, registration, merchandise } from '../templates/participantDetail/participantTemplates';
 
 
 const participantDetail = {
@@ -54,10 +55,6 @@ const participantDetail = {
           <form>
               <p class="text-gray-400 py-4 font-medium text-xs">MERCHANDISE</p>
 
-              <div>
-
-              </div>
-
               <div id="merch">
 
               </div>
@@ -72,73 +69,38 @@ const participantDetail = {
   },
   async afterRender() {
     const { id } = UrlParser.parseActiveUrlWithoutCombiner();
+    const elementName = document.querySelector('#custumer');
+    const elementId = document.querySelector('#participant');
+    const elementDesc = document.querySelector('#ticket');
+    const validatedOn = document.querySelector('#registration');
+    const merchElement = document.querySelector('#merch');
 
-    // Get Data Costumer
-    GetData(`http://192.168.18.226:8055/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${id}`).then(result =>{
-      const elementName = document.querySelector('#custumer');
-      const customerName = (data) =>`
-        <div class="w-9/12">
-          <p class="text-gray-400 pt-4 font-medium text-xs">PARTICIPANT NAME</p>
-          <p class="font-bold text-lg truncate">${result[0].customer_id.customer_name}</p>
-        </div>
 
-        <!--NOTIFY CHECKED-->
-        <div class="py-1 px-2 rounded-lg text-white text-center text-xs bg-green-500">Checked</div>
+    Promise.all([
+      GetData(`http://192.168.18.226:8055/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${id}`),
+      GetData(`http://192.168.18.54:8055/items/registration?filter[id_participant]=${id}&aggregate[min]=validated_on`),
+      GetData(`http://192.168.18.65:8055/items/peserta_x_merch_eligible?fields=id_peserta_x_merch,id_merch_eligible.id_merch.nama_merch&filter[id_peserta_x_merch]=${id}`)
+    ]).then(async([res1, res2, res3]) => {
+      res1.map((data) => {
+        console.log(data);
 
-      `;
-      const elementId = document.querySelector('#participant');
-      const customerId = (data) => `
-        <p class="text-gray-400 pt-4 font-medium text-xs">ID PARTICIPANT</p>
-        <p class="font-bold text-md py-2">${result[0].customer_id.customer_id}</p>
-      `;
-      const elementDesc = document.querySelector('#ticket');
-      const description =(data) =>`
-         <p class="text-gray-400 pt-4 font-medium text-xs">TICKET TYPE</p>
-         <p class="font-bold text-xs py-2">${result[0].ticket_id.ticket_type}</p>
-       `;
-
-      result.map(data=>{
-        elementName.innerHTML = customerName(data);
-        elementId.innerHTML = customerId(data);
+        elementName.innerHTML = participantName(data);
+        elementId.innerHTML = participantId(data);
         elementDesc.innerHTML = description(data);
       });
-    })
 
-    // Get Data Registration
-    GetData(`http://192.168.18.54:8055/items/registration?filter[id_participant]=${id}&aggregate[min]=validated_on`).then(result =>{
-
-      const validatedOn = document.querySelector('#registration');
-      const registration =(data) =>`
-          <p class="font-bold text-xs py-2">${data.min.validated_on}</p>
-       `;
-      result.map(data=>{
-       //  elementHtml.innerHTML += session(data);
-         validatedOn.innerHTML += registration(data);
+      res2.map((data) => {
+        validatedOn.innerHTML += registration(data);
       });
+
+      res3.map((data) => {
+        merchElement.innerHTML += merchandise(data)
+      });
+
+
+    }).catch((err) => {
+      console.log(err)
     })
-
-    // Get data Merch
-    GetData(`http://192.168.18.65:8055/items/peserta_x_merch_eligible?fields=id_peserta_x_merch,id_merch_eligible.id_merch.nama_merch&filter[id_peserta_x_merch]=${id}`).then(result =>{
-        // console.log(result.id_merch_eligible)
-        result.map(data=>{
-            // console.log(data.id_merch_eligible.id_merch.nama_merch)
-
-            const elementHtml = document.querySelector('#merch');
-            const merchandise =(data) =>`
-            <div class="form-check text-xs block">
-              <input class="form-check-input" type="checkbox" value="${data.id_merch_eligible.id_merch.nama_merch}" id="flexCheckDefault">
-                <label class="form-check-label pl-2 font-medium truncate" for="flexCheckDefault">
-                    ${data.id_merch_eligible.id_merch.nama_merch}
-                </label>
-            </div>
-            `;
-
-            elementHtml.innerHTML += merchandise(data);
-        });
-    });
-
-    // Get Data session
-    GetData()
 
   }
 };

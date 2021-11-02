@@ -1,3 +1,5 @@
+import GetData from '../../utils/getDataApi';
+
 const sessionPage = {
   async render() {
     return `
@@ -22,7 +24,7 @@ const sessionPage = {
 
 
           <!--GRID-->
-          <div id="day"class="grid grid-cols-3 text-center text-base"></div>
+          <div id="day"class="grid grid-cols-3 text-center gap-x-2"></div>
 
           <div id="session" class="text-blue-900 block hidden"></div>
 
@@ -30,48 +32,40 @@ const sessionPage = {
     `;
   },
   async afterRender() {
-    async function getDataDay(url){
+    const dayElement = document.querySelector('#day');
 
-    const response = await fetch(url);
-    const {data} =  await response.json();
-    console.log(data)
-    return data;
-
-    };
+    const day =(data) =>`
+    <button id="button-day" onclick="clickDataSession()">
+        <div class="relative bg-white hover:bg-gray-400 mx-auto rounded-xl mt-10  text-gray-800 py-4 px-2 text-sm truncate">
+            <p class="font-bold">${data.day_name}</p>
+            <p class="truncate text-xs">${data.day_desc}</p>
+            <p class="text-xs">${data.day_date}</p>
+        </div>
+    </button>
+    `;
 
     //get API
-    getDataDay('http://192.168.18.80:8055/items/day').then(result =>{
+    GetData('http://192.168.18.80:8055/items/day').then(result =>{
 
-        const elementHtml = document.querySelector('#day');
-        const day =(data) =>`
-        <button id="button-day" onclick="clickDataSession()">
-            <div class="relative bg-white hover:bg-gray-400 w-9/12 h-32 text-base mx-auto rounded-xl mt-10  text-gray-800 pt-4">
-                <p class="font-bold">${data.day_name}</p>
-                <p>${data.day_desc}</p>
-                <p>${data.day_date}</p>
-            </div>
-        </button>
-        `;
+
+
 
         result.map(data=>{
             elementHtml.innerHTML += day(data);
         });
     })
 
+    Promise.all([
+      GetData('http://192.168.18.226:8001/items/day')
+    ]).then(async([res1]) => {
+      res1.map((data) => {
+        dayElement.innerHTML += day(data)
+      })
+    })
 
-    async function getDataSession(url){
-
-        const response = await fetch(url);
-        const {data} =  await response.json();
-        console.log(data)
-        return data;
-
-    };
-
-
-    function clickDataSession(){
+    // function clickDataSession(){
         //get API
-        getDataSession('http://192.168.18.80:8055/items/session').then(result =>{
+        GetData('http://192.168.18.80:8055/items/session').then(result =>{
             const elementHtml = document.querySelector('#session');
 
             if(elementHtml.classList.contains("active")){
@@ -99,7 +93,6 @@ const sessionPage = {
             }
         })
     }
-  }
 };
 
 export default sessionPage;

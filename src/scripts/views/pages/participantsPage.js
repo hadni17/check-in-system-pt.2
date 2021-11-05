@@ -5,6 +5,10 @@ import { elementParticipants } from '../templates/participantList/elementPartici
 const participantPage = {
   async render() {
     return `
+        <div class="spinner">
+          <div class="spinner-2"></div>
+        </div>
+
         <section class="mx-auto pb-40">
           <div class="flex items-center justify-between pt-2">
             <button>
@@ -69,6 +73,7 @@ const participantPage = {
   async afterRender() {
   const elementParticipant = document.querySelector('#participant');
   const checkInStatusElement = document.querySelector('#checkInStatus');
+  const spinnerElement = document.querySelector('.spinner');
 
 
   Promise.all([
@@ -84,6 +89,8 @@ const participantPage = {
       checkInStatusElement.innerHTML = elementStatusCheckIn(data.countDistinct.id_participant);
     })
 
+
+    spinnerElement.classList.add('hidden')
   }).catch((err) => {
     console.log(err);
   })

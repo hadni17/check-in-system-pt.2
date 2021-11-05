@@ -6,6 +6,9 @@ import { participantName, participantId, description, registration, merchandise,
 const participantDetail = {
   async render() {
     return `
+      <div class="spinner">
+        <div class="spinner-2"></div>
+      </div>
       <section class="w-full mx-auto pb-40 bg-bottom ">
 
       <!-- Navigation -->
@@ -36,9 +39,6 @@ const participantDetail = {
                 <div>
                   <!--ID-->
                   <div id="participant">
-                    <div class="spinner">
-                      <div class="spinner-2"></div>
-                    </div>
                   </div>
 
                   <div id="ticket"></div>
@@ -51,7 +51,7 @@ const participantDetail = {
                 <div>
                   <!--CHECK-IN-->
                   <div id="registration">
-                      <p class="text-gray-400 pt-4 font-medium text-xs">CHECK-IN TIME</p>
+                      
                   </div>
                 </div>
             </div>
@@ -85,6 +85,7 @@ const participantDetail = {
     const merchElement = document.querySelector('#merch');
     const buttonSubmit = document.querySelector('#button-submit');
     const checkStatus = document.querySelector('#check-status');
+    const spinnerElement = document.querySelector('.spinner'); 
 
 
     Promise.all([
@@ -132,6 +133,8 @@ const participantDetail = {
       })
 
       buttonSubmit.innerHTML = buttonElement;
+
+      spinnerElement.classList.add('hidden')
     }).catch((err) => {
       console.log(err)
     });

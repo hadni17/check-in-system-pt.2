@@ -16,6 +16,7 @@ const description =(data) =>`
 `;
 
 const registration = (data) => `
+  <p class="text-gray-400 pt-4 font-medium text-xs">CHECK-IN TIME</p>
   <p class="font-bold text-xs py-2">${ moment(data.min.validated_on).format('LLLL') }</p>
 `;
 

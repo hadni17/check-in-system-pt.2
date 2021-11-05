@@ -85,9 +85,6 @@ const participantDetail = {
     const merchElement = document.querySelector('#merch');
     const buttonSubmit = document.querySelector('#button-submit');
     const checkStatus = document.querySelector('#check-status');
-    const isStatus = document.querySelector('#isStatus');
-    console.log(checkStatus);
-    console.log(checkStatus);
 
 
     Promise.all([
@@ -140,7 +137,7 @@ const participantDetail = {
     });
 
 
-    buttonSubmit.addEventListener('click', async () => {
+    buttonSubmit.addEventListener('click', async (e) => {
       GetData(`http://192.168.18.54:8055/items/registration?filter[id_participant]=${id}&filter[id_session]=4`).then( async (result) => {
         const id_session = result[0].id_registration;
 
@@ -158,6 +155,9 @@ const participantDetail = {
         })
 
         console.log(response);
+
+        e.preventDefault();
+        e.stopPropagation();
 
       })
     })

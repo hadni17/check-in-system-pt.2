@@ -1,3 +1,5 @@
+import UrlParser from '../../routes/urlParser';
+
 const scanPage = {
   async render() {
     return `
@@ -32,10 +34,12 @@ const scanPage = {
   },
 
   async afterRender() {
+    const { id } = UrlParser.parseActiveUrlWithoutCombiner();
+
 
     async function onScanSuccess(decodedText, decodedResult) {
       // handle the scanned code as you like, for example:
-      window.location.replace(`/#/participant/${decodedText}`);
+      window.location.replace(`/#/participant/${decodedText}-${id}`);
     }
 
     async function onScanFailure(error) {

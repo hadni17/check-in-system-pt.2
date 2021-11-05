@@ -85,14 +85,16 @@ const participantDetail = {
     const merchElement = document.querySelector('#merch');
     const buttonSubmit = document.querySelector('#button-submit');
     const checkStatus = document.querySelector('#check-status');
-    const spinnerElement = document.querySelector('.spinner'); 
+    const spinnerElement = document.querySelector('.spinner');
 
+    const idParticipant = id.split('-')[0];
+    const idSession = id.split('-')[1];
 
     Promise.all([
-      GetData(`http://192.168.18.226:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${id}`),
-      GetData(`http://192.168.18.226:8002/items/registration?filter[id_participant]=${id}&aggregate[min]=validated_on`),
-      GetData(`http://192.168.18.65:8056/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name&filter[customer_x_merch_id][customer_id]=${id}`),
-      GetData(`http://192.168.18.54:8055/items/registration?filter[id_participant]=${id}&aggregate[max]=validated_on`)
+      GetData(`http://192.168.18.226:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
+      GetData(`http://192.168.18.226:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
+      GetData(`http://192.168.18.226:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
+      GetData(`http://192.168.18.226:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[max]=validated_on`)
     ]).then(async([res1, res2, res3, res4]) => {
       res1.map((data) => {
 
@@ -141,7 +143,10 @@ const participantDetail = {
 
 
     buttonSubmit.addEventListener('click', async (e) => {
-      GetData(`http://192.168.18.54:8055/items/registration?filter[id_participant]=${id}&filter[id_session]=4`).then( async (result) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      GetData(`http://192.168.18.226:8002/items/registration?filter[id_participant]=${idParticipant}&filter[id_session]=${idSession}`).then( async (result) => {
         const id_session = result[0].id_registration;
 
         const payload = {
@@ -149,7 +154,7 @@ const participantDetail = {
         }
 
 
-        const response =  await fetch(`http://192.168.18.54:8055/items/registration/${id_session}`, {
+        const response =  await fetch(`http://192.168.18.226:8002/items/registration/${id_session}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json'
@@ -158,9 +163,6 @@ const participantDetail = {
         })
 
         console.log(response);
-
-        e.preventDefault();
-        e.stopPropagation();
 
       })
     })

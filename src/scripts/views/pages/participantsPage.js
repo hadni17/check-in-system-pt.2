@@ -72,8 +72,8 @@ const participantPage = {
 
 
   Promise.all([
-    getData('http://192.168.18.226:8055/items/customer'),
-    getData('http://192.168.18.54:8055/items/registration?aggregate[countDistinct]=id_participant&filter[validated_on][_between]=[2020-01-1,2200-12-12]')
+    getData('http://192.168.18.226:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,l&filter[invoice_id][invoice_status]=1'),
+    getData('http://192.168.18.226:8002/items/registration?aggregate[countDistinct]=id_participant&filter[validated_on][_between]=[2020-01-1,2200-12-12]')
   ]).then(async([res1, res2]) => {
 
     res1.map((data) => {

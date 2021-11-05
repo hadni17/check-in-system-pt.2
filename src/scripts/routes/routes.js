@@ -7,8 +7,8 @@ import ActiveSession from '../views/pages/activeSession';
 
 const routes = {
   '/': FrontPage,
-  '/active-session/:id': ActiveSession,
-  '/scan': ScanPage,
+  '/active-session': ActiveSession,
+  '/scan/:id': ScanPage,
   '/participants': ParticipantPage,
   '/session': SessionPage,
   '/participant/:id': ParticipantDetail

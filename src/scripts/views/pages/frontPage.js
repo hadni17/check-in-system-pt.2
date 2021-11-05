@@ -13,7 +13,7 @@ const FrontPage = {
 
         <div class="grid gap-y-4 items-center w-full mt-10">
 
-        <a href="/#/active-session/sadsad" class="w-full h-full">
+        <a href="/#/active-session" class="w-full h-full">
           <button name="button check in" class="w-full shadow-md bg-white rounded-2xl h-36 hover:shadow-lg text-gray-700">
               <span class="iconify mx-auto text-4xl" data-icon="iconoir:user-scan"></span>
               <span class="">Scan Peserta</span>

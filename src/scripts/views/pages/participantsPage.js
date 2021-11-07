@@ -5,10 +5,6 @@ import { elementParticipants } from '../templates/participantList/elementPartici
 const participantPage = {
   async render() {
     return `
-        <div class="spinner">
-          <div class="progress-7"></div>
-        </div>
-
         <section class="mx-auto pb-40">
           <div class="flex items-center justify-between pt-2">
             <button>
@@ -25,78 +21,60 @@ const participantPage = {
 
           </div>
 
-          <div class="mt-2">
-            <div class="bg-white flex items-center rounded-xl shadow-xl mx-auto px-2 text-gray-600">
-                <input class="rounded-xl w-full py-3 px-6 text-gray-700 leading-tight focus:outline-none" id="text" type="text" placeholder="Participant ID/Link">
-
-              <!--ICONIFY FILTER-->
-              <div class="filter md:filter-none px-4">
-                <a href="#">
-                 <span class="iconify" data-icon="bi:filter-circle-fill"></span>
-                </a>
-              </div>
-
-                <!--ICONIFY SEARCH-->
-              <div class="">
-                <a href="DashPart_Detail.html">
-                  <span class="iconify" data-icon="akar-icons:search"></span>
-                </a>
-              </div>
-
-              <!--ICONIFY QR CODE-->
-              <div class="px-2">
-                <a href="DashPart_Scan.html">
-                  <span class="iconify" data-icon="ic:outline-qr-code-scanner"></span>
-                </a>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="overflow-x-scroll	bg-white mx-auto rounded-xl mt-10 py-4">
-            <table class="text-xs table-auto w-full border-solid divide-y divide-black" >
-                <thead>
-                <tr >
-                    <th>Nama</th>
-                    <th>Id tiket</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody id="participant" class="text-center">
-                </tbody>
-            </table>
-          </div>
+          <!--TABLE-->
+          <table id="table-id" class="sortable md:text-xl mx-auto text-base table-fix w-full pt-2 px-2">
+              <thead class="sticky -top-0.5">
+              <tr>
+                  <th class="bg-white rounded-xl">Nama</th>
+                  <th class="bg-white">Id Participant</th>
+                  <th class="bg-white rounded-xl">Action</th>
+              </tr>
+              </thead>
+              <tbody id="customer" class="text-center"></tbody>
+          </table>
         </section>
     `;
   },
 
   async afterRender() {
-  const elementParticipant = document.querySelector('#participant');
-  const checkInStatusElement = document.querySelector('#checkInStatus');
-  const spinnerElement = document.querySelector('.spinner');
 
+  
+  $(document).ready(function() {
+    var table = $('#table-id').DataTable( {
+        "ajax": "http://192.168.0.125:8001/items/order?fields=customer_id.customer_id,customer_id.customer_email,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type,ticket_id.ticket_x_session.session_id.,ticket_id.ticket_x_day.day_id.,invoice_id.invoice_status,invoice_id.customer_id.customer_email&filter[invoice_id][invoice_status]=1",
+        "bInfo" : true,
+        "columns": [
+          { data: "customer_id.customer_name"},
+          { data: "customer_id.customer_id"},
+          { data: null }
+        ],
+          "pagingType":"simple_numbers",
+          language: {
+                sLengthMenu:"_MENU_",
+              search: '', searchPlaceholder: "Participant ID/Link" ,
+              oPaginate: {
+                  sNext: ' <button class="px-4 py-2 my-2 text-white bg-blue-500 rounded-full hover:bg-gray-700 hover:text-black" > > <button class="sr-only ">(current)</button>',
+                  sPrevious: ' <button class="px-4 py-2 my-2 text-white bg-blue-500 rounded-full hover:bg-gray-700 hover:text-black" > < <button class="sr-only ">(current)</button>',
+  }
+  },
 
-  Promise.all([
-    getData('http://192.168.0.125:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,l&filter[invoice_id][invoice_status]=1'),
-    getData('http://192.168.0.125:8002/items/registration?aggregate[countDistinct]=id_participant&filter[validated_on][_between]=[2020-01-1,2200-12-12]')
-  ]).then(async([res1, res2]) => {
+        "columnDefs": [ {
+        "targets": -1,
+        "data": null,
+        "render": function(data, type, row, meta) {
+          return `<a href="/#/participant/${data.customer_id.customer_id}"><button class='bg-blue-500 hover:bg-gray-700 text-white font-bold px-3 py-1 md:py-2 md:px-4 rounded-full my-2'>Detail</button></a>`
+        }
+    } ]
+  } );
 
-    res1.map((data) => {
-      elementParticipant.innerHTML += elementParticipants(data);
-    });
-
-    res2.map((data) => {
-      checkInStatusElement.innerHTML = elementStatusCheckIn(data.countDistinct.id_participant);
-    })
-
-
-    spinnerElement.classList.add('hidden')
-  }).catch((err) => {
-    console.log(err);
-  })
-
+  // $('#table-id tbody').on( 'click', 'button', function () {
+  //   var data = table.row( $(this).parents('tr') ).data();
+  //   } );
+  });
 
   }
 };
 
 export default participantPage;
+
+// `<a href="customer_id.customer_id"><button class='bg-blue-500 hover:bg-gray-700 text-white font-bold px-3 py-1 md:py-2 md:px-4 rounded-full my-2'>Detail</button></a>`

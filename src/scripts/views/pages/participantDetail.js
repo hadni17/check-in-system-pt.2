@@ -7,7 +7,7 @@ const participantDetail = {
   async render() {
     return `
       <div class="spinner">
-        <div class="spinner-2"></div>
+        <div class="progress-7"></div>
       </div>
       <section class="w-full mx-auto pb-40 bg-bottom ">
 
@@ -91,10 +91,10 @@ const participantDetail = {
     const idSession = id.split('-')[1];
 
     Promise.all([
-      GetData(`http://192.168.18.226:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
-      GetData(`http://192.168.18.226:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
-      GetData(`http://192.168.18.226:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
-      GetData(`http://192.168.18.226:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[max]=validated_on`)
+      GetData(`http://192.168.0.125:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
+      GetData(`http://192.168.0.125:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
+      GetData(`http://192.168.0.125:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
+      GetData(`http://192.168.0.125:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[max]=validated_on`)
     ]).then(async([res1, res2, res3, res4]) => {
       res1.map((data) => {
 
@@ -146,15 +146,15 @@ const participantDetail = {
       e.preventDefault();
       e.stopPropagation();
 
-      GetData(`http://192.168.18.226:8002/items/registration?filter[id_participant]=${idParticipant}&filter[id_session]=${idSession}`).then( async (result) => {
+      GetData(`http://192.168.0.125:8002/items/registration?filter[id_participant]=${idParticipant}&filter[id_session]=${idSession}`).then( async (result) => {
         const id_session = result[0].id_registration;
-
+        
         const payload = {
           "validated_on": new Date()
         }
 
 
-        const response =  await fetch(`http://192.168.18.226:8002/items/registration/${id_session}`, {
+        const response =  await fetch(`http://192.168.0.125:8002/items/registration/${id_session}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json'

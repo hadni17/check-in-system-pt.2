@@ -6,7 +6,7 @@ const participantPage = {
   async render() {
     return `
         <div class="spinner">
-          <div class="spinner-2"></div>
+          <div class="progress-7"></div>
         </div>
 
         <section class="mx-auto pb-40">
@@ -77,8 +77,8 @@ const participantPage = {
 
 
   Promise.all([
-    getData('http://192.168.18.226:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,l&filter[invoice_id][invoice_status]=1'),
-    getData('http://192.168.18.226:8002/items/registration?aggregate[countDistinct]=id_participant&filter[validated_on][_between]=[2020-01-1,2200-12-12]')
+    getData('http://192.168.0.125:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,l&filter[invoice_id][invoice_status]=1'),
+    getData('http://192.168.0.125:8002/items/registration?aggregate[countDistinct]=id_participant&filter[validated_on][_between]=[2020-01-1,2200-12-12]')
   ]).then(async([res1, res2]) => {
 
     res1.map((data) => {

@@ -23,7 +23,7 @@ const registration = (data) => `
 const merchandise = (data) => `
   <div class="form-check text-xs block">
     <input type="checkbox" value="${data.merch_eligible_id.merch_id.merch_name}" name="${data.merch_eligible_id.merch_id.merch_name}" id=${data.merch_eligible_id.merch_id.merch_name}>
-      <label class="form-check-label pl-2 font-medium truncate" for="${data.merch_eligible_id.merch_id.merch_name}">
+      <label class="form-check-label pl-2 font-medium" for="${data.merch_eligible_id.merch_id.merch_name}">
           ${data.merch_eligible_id.merch_id.merch_name}
       </label>
   </div>

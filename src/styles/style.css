@@ -78,7 +78,7 @@ cursor: pointer;
 color: #3B82F6 !important;
 
 }
-input{
+.dataTables_filter > label > input{
   border-radius: 6px;
   border: solid 5px #fff;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
@@ -90,7 +90,6 @@ table.sortable thead tr th {
   background-repeat: no-repeat;
   background-position: right center ;
   cursor: pointer;
-  /* background-image: url(assets/sort.png); */
 }
 .dataTables_info {
   float: none;

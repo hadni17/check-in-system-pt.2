@@ -46,7 +46,7 @@ const sessionPage = {
 
 
     Promise.all([
-      GetData('http://192.168.0.125:8001/items/day'),
+      GetData('http://192.168.18.76:8001/items/day'),
       // GetData('http://192.168.0.125:8001/items/session?filter[day(start_time)][_eq]=01'),
       // GetData('http://192.168.0.125:8001/items/session?filter[day(start_time)][_eq]=03'),
       // GetData('http://192.168.0.125:8001/items/session?filter[day(start_time)][_eq]=05')

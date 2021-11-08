@@ -53,6 +53,10 @@ const participantDetail = {
                   <div id="registration">
                       
                   </div>
+
+                  <div id="session-history">
+                    <p class="text-gray-400 pt-4 font-medium text-xs">History Session</p>
+                  </div>
                 </div>
             </div>
           <!--GRID CLOSE-->
@@ -86,16 +90,22 @@ const participantDetail = {
     const buttonSubmit = document.querySelector('#button-submit');
     const checkStatus = document.querySelector('#check-status');
     const spinnerElement = document.querySelector('.spinner');
+    const sessionHistoryElement = document.querySelector('#session-history');
 
     const idParticipant = id.split('-')[0];
     const idSession = id.split('-')[1];
+
+    const historySession = (data) => `
+      <p class="font-bold text-xs py-2">${ data.id_session }</p>
+    `;
 
     Promise.all([
       GetData(`http://192.168.18.76:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
       GetData(`http://192.168.18.76:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
       GetData(`http://192.168.18.76:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
-      GetData(`http://192.168.18.76:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[max]=validated_on`)
-    ]).then(async([res1, res2, res3, res4]) => {
+      GetData(`http://192.168.18.76:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
+      GetData(`http://192.168.18.76:8002/items/registration?filter[id_participant]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
+    ]).then(async([res1, res2, res3, res4, res5]) => {
       res1.map((data) => {
 
         elementName.innerHTML = participantName(data);
@@ -113,25 +123,31 @@ const participantDetail = {
 
       res4.map(data => {
 
-        const time = data.max.validated_on;
+        const time = data.min.validated_on;
 
         let status = '';
 
         const time_validated = moment(time).format('L');
         const current_time = moment(new Date).format('L');
-
+        
         if (time_validated > current_time) {
           status = 'Check In';
           checkStatus.innerHTML = checkStatusElement(status)
           checkStatus.classList.add('bg-green-500');
         }
 
-        if (time_validated === null) {
+        if (time_validated < current_time) {
           status = 'Non Active';
           checkStatus.innerHTML = checkStatusElement(status)
           checkStatus.classList.add('bg-red-600');
         }
 
+       
+
+      });
+
+      res5.map((data) => {
+        sessionHistoryElement.innerHTML += historySession(data);
       })
 
       buttonSubmit.innerHTML = buttonElement;
@@ -163,6 +179,8 @@ const participantDetail = {
         })
 
         console.log(response);
+
+         window.location.replace('/#/scan/4');
 
       })
     })

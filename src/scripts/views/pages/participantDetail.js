@@ -129,17 +129,17 @@ const participantDetail = {
 
         const time_validated = moment(time).format('L');
         const current_time = moment(new Date).format('L');
-        
+       
+        if (time_validated == null) {
+          status = 'Non Active';
+          checkStatus.innerHTML = checkStatusElement(status)
+          checkStatus.classList.add('bg-red-600');
+        }
+
         if (time_validated > current_time) {
           status = 'Check In';
           checkStatus.innerHTML = checkStatusElement(status)
           checkStatus.classList.add('bg-green-500');
-        }
-
-        if (time_validated < current_time) {
-          status = 'Non Active';
-          checkStatus.innerHTML = checkStatusElement(status)
-          checkStatus.classList.add('bg-red-600');
         }
 
        

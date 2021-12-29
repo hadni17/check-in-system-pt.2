@@ -10,7 +10,6 @@ const participantDetail = {
         <div class="progress-7"></div>
       </div>
       <section class="w-full mx-auto pb-40 bg-bottom ">
-
       <!-- Navigation -->
         <div class="flex items-center justify-between">
           <button onClick="window.history.back();" class="pl-5">
@@ -20,19 +19,14 @@ const participantDetail = {
           <div></div>
         </div>
       <!-- Navigation -->
-
         <div class="box-border w-full bg-white mx-auto rounded-lg mt-10 mb-10 pb-5 md:px-7 px-4">
           <div class="flex items-center justify-between border-b-2 border-dashed">
             <div id="custumer">
             </div>
-
             <!--NOTIFY CHECKED-->
-            <div id="check-status" class="rounded-lg">
-                
+            <div id="check-status" class="rounded-lg text-center">
             </div>
           </div>
-
-
           <!--GRID-->
             <div class="grid grid-cols-2 ">
                 <!--LEFT-->
@@ -40,39 +34,28 @@ const participantDetail = {
                   <!--ID-->
                   <div id="participant">
                   </div>
-
                   <div id="ticket"></div>
-
                   <div id="session"></div>
-
                 </div>
-
                 <!-- RIGHT -->
                 <div>
                   <!--CHECK-IN-->
                   <div id="registration">
                       
                   </div>
-
                   <div id="session-history">
                     <p class="text-gray-400 pt-4 font-medium text-xs">History Session</p>
                   </div>
                 </div>
             </div>
           <!--GRID CLOSE-->
-
           <!--MERCHANDISE-->
           <form>
               <p class="text-gray-400 py-4 font-medium text-xs">MERCHANDISE</p>
-
               <div id="merch">
-
               </div>
-
               <!--BUTTON SUBMIT-->
-
               <div id="button-submit">
-
               </div>
           </form>
           <!--MERCHANDISE CLOSE-->
@@ -123,44 +106,25 @@ const participantDetail = {
 
       res4.map(data => {
 
-        // const time = data.min.validated_on;
+        const time = data.min.validated_on;
 
-        // let status = '';
+        var status = '';
+        console.log(status)
 
-        // const time_validated = moment(time).format('L');
-        // const current_time = moment(new Date).format('L');
-       
-        // if (time_validated == null) {
-        //   status = 'Non Active';
-        //   checkStatus.innerHTML = checkStatusElement(status)
-        //   checkStatus.classList.add('bg-red-600');
-        // }
-
-        // if (time_validated > current_time) {
-        //   status = 'Check In';
-        //   checkStatus.innerHTML = checkStatusElement(status)
-        //   checkStatus.classList.add('bg-green-500');
-        // }
-
-        const time = data.max.validated_on;
-
-        let status = '';
-
-        const time_validated = moment(result[0].min.validated_on).format('L');
-        console.log(time_validated)
+        const time_validated = moment(time).format('L');
         const current_time = moment(new Date).format('L');
-
+        console.log(time_validated>current_time)
+       
         if (time_validated > current_time) {
-         document.getElementById("status").style.backgroundColor = "green"
-            status = "Check In";
-        } else if (time_validated === null){
-            document.getElementById("status").style.backgroundColor = "red"
-            status = "NonActive";
-        } else  {
-            document.getElementById("status").style.backgroundColor = "gray"
-            status = "Check Out";
+          status = 'check in';
+          checkStatus.innerHTML = checkStatusElement(status)
+          checkStatus.classList.add('bg-green-500');
+        } else{
+          status = 'uncheck';
+          checkStatus.innerHTML = checkStatusElement(status)
+          checkStatus.classList.add('bg-red-500');
         }
-        document.getElementById("status").innerHTML = status;
+
        
 
       });

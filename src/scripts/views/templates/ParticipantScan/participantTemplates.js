@@ -36,7 +36,7 @@ const buttonElement = `
 `;
 
 const checkStatusElement = (data) => `
-  <div class="py-1 px-2 text-center text-white text-xs">
+  <div class="py-1 px-2 text-center text-black text-xs">
     ${data}
   </div>
 `;

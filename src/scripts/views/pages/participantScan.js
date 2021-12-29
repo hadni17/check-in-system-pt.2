@@ -12,11 +12,7 @@ const participantDetail = {
       <section class="w-full mx-auto pb-40 bg-bottom ">
 
       <!-- Navigation -->
-        <div class="flex items-center justify-between">
-          <button onClick="window.history.back();" class="pl-5">
-              <span class="iconify text-4xl" data-icon="bi:arrow-left-short"></span>
-          </button>
-          <h1 class="mx-auto font-semibold">Participant Detail</h1>
+          <h1 class="mx-auto text-center mt-6 font-semibold">Participant Scan</h1>
           <div></div>
         </div>
       <!-- Navigation -->

@@ -4,6 +4,7 @@ import ParticipantPage from '../views/pages/participantsPage';
 import SessionPage from '../views/pages/sessionPage';
 import ParticipantDetail from '../views/pages/participantDetail';
 import ActiveSession from '../views/pages/activeSession';
+import ParticipantScan from '../views/pages/participantScan';
 
 const routes = {
   '/': FrontPage,
@@ -11,7 +12,9 @@ const routes = {
   '/scan/:id': ScanPage,
   '/participants': ParticipantPage,
   '/session': SessionPage,
-  '/participant/:id': ParticipantDetail
+  '/participant/:id': ParticipantDetail,
+  '/scans/:id': ParticipantScan
+
 };
 
 export default routes;

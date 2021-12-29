@@ -39,13 +39,13 @@ const scanPage = {
 
     async function onScanSuccess(decodedText, decodedResult) {
       // handle the scanned code as you like, for example:
-      window.location.replace(`/#/participant/${decodedText}-${id}`);
+      window.location.replace(`#/scans/${decodedText}-${id}`);
     }
 
     async function onScanFailure(error) {
       // handle scan failure, usually better to ignore and keep scanning.
       // for example:
-      // console.warn(`Code scan error = ${error}`);
+       console.warn(`Code scan error = ${error}`);
     }
 
     const html5QrcodeScanner = new Html5QrcodeScanner(
@@ -63,7 +63,7 @@ const scanPage = {
       if (getValue === '') {
         return;
       } else {
-        window.location.replace(`/#/participant/${getValue}`);
+        window.location.replace(`/#/scans/${getValue}`);
       }
 
       document.querySelector('#id-code').value = '';

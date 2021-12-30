@@ -6,7 +6,7 @@ const scanPage = {
       <section class="mx-auto w-full">
         <div class="flex items-center">
           <button>
-            <a href="/#/">
+            <a href="/#/active-session">
               <span class="iconify text-4xl" data-icon="bi:arrow-left-short"></span>
             </a>
           </button>

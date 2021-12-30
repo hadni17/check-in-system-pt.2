@@ -1,6 +1,9 @@
 import UrlParser from '../../routes/urlParser';
 import GetData from '../../utils/getDataApi';
 import { participantName, participantId, description, registration, merchandise, buttonElement, checkStatusElement } from '../templates/participantDetail/participantTemplates';
+import swal from 'sweetalert2';
+
+
 
 
 const participantDetail = {
@@ -142,9 +145,22 @@ const participantDetail = {
 
         console.log(response);
 
-         window.location.replace('/#/scan/4');
+      
 
       })
+      swal.fire({
+        title: "HORE!",
+        text: "Berhasil Check In",
+        icon: "success",
+        confirmButtonColor: '#378805',
+        confirmButtonText: 'Kembali Scan',
+        closeOnConfirm: false,
+        closeOnCancel: false
+    }).then(function() {
+        window.location = "/#/scan/4";
+    });
+
+
     })
   }
 };

@@ -35,18 +35,18 @@ const participantDetail = {
                   <!--ID-->
                   <div id="participant">
                   </div>
-                  <div id="ticket"></div>
+                  <div id="ticket">
+                    <p class="text-gray-400 pt-4 font-medium text-xs">TICKET TYPE</p>
+                  </div>
                   <div id="session"></div>
                 </div>
                 <!-- RIGHT -->
                 <div>
                   <!--CHECK-IN-->
-                  <div id="registration">
-                      
+                  <div id="registration"> 
                   </div>
                   <div id="session-history">
-                    <p class="text-gray-400 pt-4 font-medium text-xs">History Session</p>
-                  </div>
+                    <p class="text-gray-400 pt-2 font-medium text-xs">HISTORY SESSION</p>
                 </div>
             </div>
           <!--GRID CLOSE-->
@@ -89,12 +89,12 @@ const participantDetail = {
       GetData(`http://192.168.18.69:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
       GetData(`http://192.168.18.69:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
       GetData(`http://192.168.18.69:8002/items/registration?filter[id_participant]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
-    ]).then(async([res1, res2, res3, res4, res5]) => {
+    ]).then(async([res1, res2, res3, res4,res5]) => {
       res1.map((data) => {
 
         elementName.innerHTML = participantName(data);
         elementId.innerHTML = participantId(data);
-        elementDesc.innerHTML = description(data);
+        elementDesc.innerHTML += description(data);
       })
 
       res2.map((data) => {
@@ -107,13 +107,11 @@ const participantDetail = {
 
       res4.map(data => {
 
-       
-
       });
 
       res5.map((data) => {
         sessionHistoryElement.innerHTML += historySession(data);
-      })
+      });
 
       buttonSubmit.innerHTML = buttonElement;
 

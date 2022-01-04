@@ -11,7 +11,6 @@ const participantId = (data) => `
 `;
 
 const description =(data) =>`
-   <p class="text-gray-400 pt-4 font-medium text-xs">TICKET TYPE</p>
    <p class="font-bold text-xs py-2">${data.ticket_id.ticket_type}</p>
 `;
 

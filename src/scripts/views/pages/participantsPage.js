@@ -36,7 +36,7 @@ const participantPage = {
 
   
   $(document).ready(function() {
-    const table = $('#table-id').DataTable( {
+    var table = $('#table-id').DataTable( {
         "ajax": "http://192.168.18.69:8001/items/order?fields=customer_id.customer_id,customer_id.customer_email,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type,ticket_id.ticket_x_session.session_id.,ticket_id.ticket_x_day.day_id.,invoice_id.invoice_status,invoice_id.customer_id.customer_email&filter[invoice_id][invoice_status]=1",
         "bInfo" : true,
         "columns": [
@@ -61,6 +61,9 @@ const participantPage = {
       }
       }]
     });
+
+    
+ 
 
     $('#table-id tbody').on( 'click', 'button', function () {
       const data = table.row( $(this).parents('tr') ).data();

@@ -22,7 +22,7 @@ const participantDetail = {
       <!-- Navigation -->
         <div class="box-border w-full bg-white mx-auto rounded-lg mt-10 mb-10 pb-5 md:px-7 px-4">
           <div class="flex items-center justify-between border-b-2 border-dashed">
-            <div id="custumer">
+            <div id="customer">
             </div>
             <!--NOTIFY CHECKED-->
             <div id="check-status" class="rounded-lg text-center">
@@ -35,7 +35,9 @@ const participantDetail = {
                   <!--ID-->
                   <div id="participant">
                   </div>
-                  <div id="ticket"></div>
+                  <div id="ticket">
+                    <p class="text-gray-400 pt-4 font-medium text-xs">TICKET TYPE</p>
+                  </div>
                   <div id="session"></div>
                 </div>
                 <!-- RIGHT -->
@@ -45,7 +47,7 @@ const participantDetail = {
                       
                   </div>
                   <div id="session-history">
-                    <p class="text-gray-400 pt-4 font-medium text-xs">History Session</p>
+                    <p class="text-gray-400 pt-2 font-medium text-xs">HISTORY SESSION</p>
                   </div>
                 </div>
             </div>
@@ -66,7 +68,7 @@ const participantDetail = {
   },
   async afterRender() {
     const { id } = UrlParser.parseActiveUrlWithoutCombiner();
-    const elementName = document.querySelector('#custumer');
+    const elementName = document.querySelector('#customer');
     const elementId = document.querySelector('#participant');
     const elementDesc = document.querySelector('#ticket');
     const validatedOn = document.querySelector('#registration');
@@ -75,7 +77,7 @@ const participantDetail = {
     const checkStatus = document.querySelector('#check-status');
     const spinnerElement = document.querySelector('.spinner');
     const sessionHistoryElement = document.querySelector('#session-history');
-
+   
     const idParticipant = id.split('-')[0];
     const idSession = id.split('-')[1];
 
@@ -89,12 +91,12 @@ const participantDetail = {
       GetData(`http://192.168.18.69:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
       GetData(`http://192.168.18.69:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
       GetData(`http://192.168.18.69:8002/items/registration?filter[id_participant]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
-    ]).then(async([res1, res2, res3, res4, res5]) => {
+    ]).then(async([res1, res2, res3, res4,res5]) => {
       res1.map((data) => {
 
         elementName.innerHTML = participantName(data);
         elementId.innerHTML = participantId(data);
-        elementDesc.innerHTML = description(data);
+        elementDesc.innerHTML += description(data);
       })
 
       res2.map((data) => {
@@ -120,20 +122,20 @@ const participantDetail = {
           status = 'check in';
           checkStatus.innerHTML = checkStatusElement(status)
           checkStatus.classList.add('bg-green-500');
-        } else{
-          status = 'uncheck';
+        } else if (time_validated ==null){
+          status = 'inactive';
           checkStatus.innerHTML = checkStatusElement(status)
-          checkStatus.classList.add('bg-red-500');
+          checkStatus.classList.add('bg-red-600');
+        } 
+        else{
+          status = 'check out';
+          checkStatus.innerHTML = checkStatusElement(status)
+          checkStatus.classList.add('bg-gray-500');
         }
-
-       
-
       });
-
       res5.map((data) => {
         sessionHistoryElement.innerHTML += historySession(data);
-      })
-
+      });
       buttonSubmit.innerHTML = buttonElement;
 
       spinnerElement.classList.add('hidden')

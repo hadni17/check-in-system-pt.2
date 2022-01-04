@@ -42,11 +42,13 @@ const participantDetail = {
                 </div>
                 <!-- RIGHT -->
                 <div>
-                  <!--CHECK-IN-->
-                  <div id="registration"> 
-                  </div>
-                  <div id="session-history">
-                    <p class="text-gray-400 pt-2 font-medium text-xs">HISTORY SESSION</p>
+                <!--CHECK-IN-->
+                <div id="registration">
+                    
+                </div>
+                <div id="session-history">
+                  <p class="text-gray-400 pt-2 font-medium text-xs">HISTORY SESSION</p>
+                </div>
                 </div>
             </div>
           <!--GRID CLOSE-->
@@ -101,17 +103,22 @@ const participantDetail = {
         validatedOn.innerHTML += registration(data);
       });
 
+      let firstTicket = res3[0].customer_x_merch_id.id_ticket; 
+      console.log(firstTicket);
+      
       res3.map((data) => {
-        merchElement.innerHTML += merchandise(data)
+        if (firstTicket == data.customer_x_merch_id.id_ticket) {
+          merchElement.innerHTML += merchandise(data);
+        }
       });
 
       res4.map(data => {
 
       });
-
       res5.map((data) => {
         sessionHistoryElement.innerHTML += historySession(data);
       });
+
 
       buttonSubmit.innerHTML = buttonElement;
 

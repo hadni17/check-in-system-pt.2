@@ -104,8 +104,14 @@ const participantDetail = {
         validatedOn.innerHTML += registration(data);
       });
 
+   
+      let firstTicket = res3[0].customer_x_merch_id.id_ticket; 
+      console.log(firstTicket);
+      
       res3.map((data) => {
-        merchElement.innerHTML += merchandise(data)
+        if (firstTicket == data.customer_x_merch_id.id_ticket) {
+          merchElement.innerHTML += merchandise(data);
+        }
       });
 
       res4.map(data => {

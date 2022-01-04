@@ -184,7 +184,7 @@ const participantScan = {
         closeOnConfirm: false,
         closeOnCancel: false
     }).then(function() {
-        window.location = "/#/Participants";
+        window.location = "/#/scan/4";
     });
 
 

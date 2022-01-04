@@ -6,7 +6,7 @@ import swal from 'sweetalert2';
 
 
 
-const participantDetail = {
+const participantScan = {
   async render() {
     return `
       <div class="spinner">
@@ -36,7 +36,7 @@ const participantDetail = {
                   <div id="participant">
                   </div>
                   <div id="ticket">
-                    <p class="text-gray-400 pt-4 font-medium text-xs">TICKET TYPE</p>
+                    <p class="text-gray-400 pt-3 font-medium text-xs">TICKET TYPE</p>
                   </div>
                   <div id="session"></div>
                 </div>
@@ -47,7 +47,7 @@ const participantDetail = {
                     
                 </div>
                 <div id="session-history">
-                  <p class="text-gray-400 pt-2 font-medium text-xs">HISTORY SESSION</p>
+                  <p class="text-gray-400 pt-3 font-medium text-xs">HISTORY SESSION</p>
                 </div>
                 </div>
             </div>
@@ -88,10 +88,10 @@ const participantDetail = {
     Promise.all([
       GetData(`http://192.168.18.69:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
       GetData(`http://192.168.18.69:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
-      GetData(`http://192.168.18.69:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
+      GetData(`http://192.168.18.69:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name,customer_x_merch_id.id_ticket&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
       GetData(`http://192.168.18.69:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
       GetData(`http://192.168.18.69:8002/items/registration?filter[id_participant]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
-    ]).then(async([res1, res2, res3, res4,res5]) => {
+    ]).then(async([res1, res2, res3, res4, res5]) => {
       res1.map((data) => {
 
         elementName.innerHTML = participantName(data);
@@ -100,6 +100,7 @@ const participantDetail = {
       })
 
       res2.map((data) => {
+        
         validatedOn.innerHTML += registration(data);
       });
 
@@ -114,11 +115,34 @@ const participantDetail = {
 
       res4.map(data => {
 
-      });
-      res5.map((data) => {
-        sessionHistoryElement.innerHTML += historySession(data);
+        const time = data.min.validated_on;
+
+                var status = '';
+        
+                const time_validated = moment(time).format('L');
+                const current_time = moment(new Date).format('L');
+                console.log(current_time)
+               
+                if (time_validated > current_time) {
+                  status = 'check in';
+                  checkStatus.innerHTML = checkStatusElement(status)
+                  checkStatus.classList.add('bg-green-500');
+                } else if (time_validated ==null){
+                  status = 'inactive';
+                  checkStatus.innerHTML = checkStatusElement(status)
+                  checkStatus.classList.add('bg-red-600');
+                } 
+                else{
+                  status = 'check out';
+                  checkStatus.innerHTML = checkStatusElement(status)
+                  checkStatus.classList.add('bg-gray-500');
+                }
+
       });
 
+      res5.map((data) => {
+        sessionHistoryElement.innerHTML += historySession(data);
+      })
 
       buttonSubmit.innerHTML = buttonElement;
 
@@ -150,19 +174,17 @@ const participantDetail = {
 
         console.log(response);
 
-      
-
       })
+
       swal.fire({
         title: "HORE!",
-        text: "Berhasil Check In",
+        text: "Data Berhasil di Update",
         icon: "success",
         confirmButtonColor: '#378805',
-        confirmButtonText: 'Kembali Scan',
         closeOnConfirm: false,
         closeOnCancel: false
     }).then(function() {
-        window.location = "/#/scan/4";
+        window.location = "/#/Participants";
     });
 
 
@@ -170,4 +192,4 @@ const participantDetail = {
   }
 };
 
-export default participantDetail;
+export default participantScan;

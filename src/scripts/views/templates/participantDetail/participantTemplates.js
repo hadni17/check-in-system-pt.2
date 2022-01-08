@@ -19,13 +19,16 @@ const registration = (data) => `
   <p class="font-bold text-xs py-2">${ moment(data.min.validated_on).format('LLLL') }</p>
 `;
 
-const merchandise = (data) => `
+const merchandise = (data, checked) => `
+ <div>
   <div class="form-check text-xs block">
-    <input type="checkbox" value="${data.merch_eligible_id.merch_id.merch_name}" name="${data.merch_eligible_id.merch_id.merch_name}" id=${data.merch_eligible_id.merch_id.merch_name}>
+    <input ${checked  === true ? 'checked' : ''} onclick="checkboxClick('${data.merch_eligible_id.merch_id.merch_name}')" type="checkbox" class="checkbox" value="${data.merch_eligible_id.merch_id.merch_name}" name="${data.merch_eligible_id.merch_id.merch_name}" >
       <label class="form-check-label pl-2 font-medium" for="${data.merch_eligible_id.merch_id.merch_name}">
           ${data.merch_eligible_id.merch_id.merch_name}
       </label>
   </div>
+  </div>
+
 `;
 
 const buttonElement = `

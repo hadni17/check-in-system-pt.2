@@ -67,6 +67,8 @@ const participantDetail = {
     `;
   },
   async afterRender() {
+    checkboxItem = [];
+
     const { id } = UrlParser.parseActiveUrlWithoutCombiner();
     const elementName = document.querySelector('#custumer');
     const elementId = document.querySelector('#participant');
@@ -80,20 +82,21 @@ const participantDetail = {
 
     const idParticipant = id.split('-')[0];
     const idSession = id.split('-')[1];
+    let merchItem = [];
 
     const historySession = (data) => `
-      <p class="font-bold text-xs py-2">${ data.id_session }</p>
+      <p class="font-bold text-xs py-2">${ data.session_id }</p>
     `;
 
     Promise.all([
-      GetData(`http://192.168.18.69:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
-      GetData(`http://192.168.18.69:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
-      GetData(`http://192.168.18.69:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name,customer_x_merch_id.id_ticket&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
-      GetData(`http://192.168.18.69:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
-      GetData(`http://192.168.18.69:8002/items/registration?filter[id_participant]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
-    ]).then(async([res1, res2, res3, res4, res5]) => {
+      GetData(`http://192.168.0.139:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
+      GetData(`http://192.168.0.139:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
+      GetData(`http://192.168.0.139:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name,customer_x_merch_id.id_ticket&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
+      GetData(`http://192.168.0.139:8002/items/registration?filter[id_participant]=${idParticipant}&aggregate[min]=validated_on`),
+      GetData(`http://192.168.0.139:8003/items/registration?filter[customer_id]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
+      GetData(`http://192.168.0.139:8003/items/registration?filter[customer_id]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
+    ]).then(async([res1, res2, res3, res4, res5, res6]) => {
       res1.map((data) => {
-
         elementName.innerHTML = participantName(data);
         elementId.innerHTML = participantId(data);
         elementDesc.innerHTML += description(data);
@@ -106,10 +109,24 @@ const participantDetail = {
 
       let firstTicket = res3[0].customer_x_merch_id.id_ticket; 
       console.log(firstTicket);
+
+      res6.map((data)=>{
+        if(data.merch_name !== null){
+          merchItem = data.merch_name.split(',');
+        }
+      })
+
+      merchItem.forEach(item=>{
+        checkboxItem.push(item);
+      })
       
       res3.map((data) => {
         if (firstTicket == data.customer_x_merch_id.id_ticket) {
-          merchElement.innerHTML += merchandise(data);
+          if(merchItem.includes(data.merch_eligible_id.merch_id.merch_name))
+          merchElement.innerHTML += merchandise(data, true);
+          else 
+          merchElement.innerHTML += merchandise(data, false);
+
         }
       });
 
@@ -143,7 +160,6 @@ const participantDetail = {
       res5.map((data) => {
         sessionHistoryElement.innerHTML += historySession(data);
       })
-
       buttonSubmit.innerHTML = buttonElement;
 
       spinnerElement.classList.add('hidden')
@@ -156,15 +172,16 @@ const participantDetail = {
       e.preventDefault();
       e.stopPropagation();
 
-      GetData(`http://192.168.18.69:8002/items/registration?filter[id_participant]=${idParticipant}&filter[id_session]=${idSession}`).then( async (result) => {
-        const id_session = result[0].id_registration;
+      GetData(`http://192.168.0.139:8003/items/registration?filter[customer_id]=${idParticipant}&filter[session_id]=${idSession}`).then( async (result) => {
+      // console.log(result);
+      const id_session = result[0].id;
         
         const payload = {
-          "validated_on": new Date()
+          "validated_on": new Date(),
+          "merch_name": checkboxItem.toString()
         }
 
-
-        const response =  await fetch(`http://192.168.18.69:8002/items/registration/${id_session}`, {
+        const response =  await fetch(`http://192.168.0.139:8003/items/registration/${id_session}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json'
@@ -172,8 +189,7 @@ const participantDetail = {
           body: JSON.stringify(payload)
         })
 
-        console.log(response);
-
+        // console.log(payload);
       })
 
       swal.fire({

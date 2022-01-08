@@ -39,7 +39,13 @@ const scanPage = {
 
     async function onScanSuccess(decodedText, decodedResult) {
       // handle the scanned code as you like, for example:
-      window.location.replace(`#/scans/${decodedText}-${id}`);
+      if (decodedText === '') {
+        return;
+      } else {
+        window.location.replace(`#/scans/${decodedText}`);
+      }
+
+     
     }
 
     async function onScanFailure(error) {

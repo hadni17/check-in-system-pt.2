@@ -1,7 +1,7 @@
 const participantPage = {
   async render() {
     return `
-        <section class="mx-auto pb-40">
+  <section class="w-full mx-auto bg-bottom ">
           <div class="flex items-center justify-between pt-2">
             <button>
               <a href="/#/">
@@ -19,12 +19,13 @@ const participantPage = {
 
           <!--TABLE-->
           <table id="table-id" class="sortable mx-auto text-base table-fix w-full pt-2 px-2">
+          <div id="userstable_filter" class="dataTables_length"></div>
               <thead class="sticky -top-0.5">
               <tr>
-                  <th class="bg-white">Nama</th>
-                  <th class="bg-white">Id Participant</th>
-                  <th class="bg-white">Tipe Tiket</th>
-                  <th class="bg-white">Action</th>
+                  <th class="bg-white rounded">Nama</th>
+                  <th class="bg-white">ID</th>
+                  <th class="bg-white">Session</th>
+                  <th class="bg-white rounded">Action</th>
               </tr>
               </thead>
               <tbody id="customer" class="text-center text-sm"></tbody>
@@ -38,35 +39,59 @@ const participantPage = {
   
   $(document).ready(function() {
     var table = $('#table-id').DataTable( {
-        "ajax": "http://192.168.0.139:8001/items/order?fields=customer_id.customer_id,customer_id.customer_email,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type,ticket_id.ticket_x_session.session_id.,ticket_id.ticket_x_day.day_id.,invoice_id.invoice_status,invoice_id.customer_id.customer_email&filter[invoice_id][invoice_status]=1",
+        "ajax": "http://192.168.18.66:8003/items/registration",
         "bInfo" : true,
         "columns": [
-          { data: "customer_id.customer_name"},
-          { data: "customer_id.customer_id"},
-          { data: "ticket_id.ticket_type"}, 
+          { data: "name"},
+          { data: "customer_id"},
+          { data: "session_id"}, 
           { data: null }
-        ],
+        ], 
+        "scrollY":"473px",
+        "scrollCollapse": true,
         "pagingType":"simple_numbers",
         language: {
           sLengthMenu:"_MENU_",
           search: '', searchPlaceholder: "Participant ID / Nama" ,
           oPaginate: {
-              sNext: ' <button class="px-4 py-2 my-2 text-white bg-blue-500 rounded-full hover:bg-gray-700 hover:text-black" > > <button class="sr-only ">(current)</button>',
-              sPrevious: ' <button class="px-4 py-2 my-2 text-white bg-blue-500 rounded-full hover:bg-gray-700 hover:text-black" > < <button class="sr-only ">(current)</button>',
+              sNext: ' <button class="px-4 py-2 my-1 text-white bg-blue-500 rounded-full hover:bg-gray-700 hover:text-black" > > <button class="sr-only ">(current)</button>',
+              sPrevious: ' <button class="px-4 py-2 my-1 text-white bg-blue-500 rounded-full hover:bg-gray-700 hover:text-black" > < <button class="sr-only ">(current)</button>',
         }
       },
+      
       "columnDefs": [{
       "targets": -1,
       "data": null,
       "render": function(data, type, row, meta) {
         console.log(data);
-          return `<a href="/#/participant/${data.customer_id.customer_id}-"><button class='bg-blue-500 hover:bg-gray-700 text-white font-bold px-3 py-1 md:py-2 md:px-4 rounded-full my-2'>Detail</button></a>`
+          return `<a href="/#/participant/${data.customer_id}-"><button class='bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 md:py-2 md:px-4 rounded-full m-1'>Detail</button></a>`
       }
-      }]
-    });
+      }],
+    initComplete: function () {
+      this.api().columns([2]).every( function () {
+            var column = this;
+            var select = $('<select><option value=""></option></select>')
+                .appendTo( $('#userstable_filter') )
+                .on( 'change', function () {
+                    var vals = $('option:selected', this).map(function (index, element) {
+                      return $.fn.dataTable.util.escapeRegex($(element).val());
+                    }).toArray().join('|');
 
-    
- 
+                    column
+                        .search( vals.length > 0 ? '^('+vals+')$' : '', true, false )
+                        .draw();
+                } );
+
+            column.data().unique().sort().each( function ( d, j ) {
+                if(column.search() === '^'+d+'$'){
+                  select.append( '<option value="'+d+'">'+d+'</option>' )
+              } else {
+                select.append( '<option value="'+d+'">'+d+'</option>' )
+              }
+            } );
+        } );
+    }
+    });
 
     $('#table-id tbody').on( 'click', 'button', function () {
       const data = table.row( $(this).parents('tr') ).data();
@@ -77,5 +102,3 @@ const participantPage = {
 };
 
 export default participantPage;
-
-// `<a href="customer_id.customer_id"><button class='bg-blue-500 hover:bg-gray-700 text-white font-bold px-3 py-1 md:py-2 md:px-4 rounded-full my-2'>Detail</button></a>`

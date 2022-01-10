@@ -36,17 +36,18 @@ const sessionPage = {
     `;
 
     const sessionActive = (data) => `
-      <div class="mt-7 w-full bg-white py-3 px-4 rounded-lg shadow-lg">
+      <div class="mt-7 w-full bg-white py-3 px-4 rounded-lg shadow-lg text-center">
         <h1 class="font-bold">${data.session_type}</h1>
+        <p class="truncate">${data.start_time}</p>
         <p>${data.session_desc}</p>
-        <h2 class="font-bold text-lg">${data.session_speaker_name}</h2>
+        <h2 class="font-bold">${data.session_speaker_name}</h2>
       </div>
     `;
 
 
     Promise.all([
-      GetData('http://192.168.0.139:8001/items/day'),
-      GetData('http://192.168.0.139:8002/items/registration?aggregate[countDistinct]=id_participant&filter[validated_on][_between]=[2020-01-1,2200-12-12]'),
+      GetData('http://192.168.18.66:8001/items/day'),
+      GetData('http://192.168.18.66:8002/items/registration?aggregate[countDistinct]=id_participant&filter[validated_on][_between]=[2020-01-1,2200-12-12]'),
     ]).then(async([res1, res2]) => {
       res1.map((data) => {
         dayElement.innerHTML += day(data)
@@ -62,7 +63,7 @@ const sessionPage = {
       buttonDay[0].addEventListener('click', () => {
         sessionActiveElement.innerHTML = '';
 
-        GetData('http://192.168.0.139:8001/items/session?filter[day(start_time)][_eq]=01').then((result) => {
+        GetData('http://192.168.18.66:8001/items/session?filter[day(start_time)][_eq]=01').then((result) => {
           result.map((data) => {
             sessionActiveElement.innerHTML += sessionActive(data);
           })
@@ -72,7 +73,7 @@ const sessionPage = {
       buttonDay[1].addEventListener('click', () => {
         sessionActiveElement.innerHTML = '';
 
-        GetData('http://192.168.0.139:8001/items/session?filter[day(start_time)][_eq]=03').then((result) => {
+        GetData('http://192.168.18.66:8001/items/session?filter[day(start_time)][_eq]=03').then((result) => {
           result.map((data) => {
             sessionActiveElement.innerHTML += sessionActive(data);
           })
@@ -82,7 +83,7 @@ const sessionPage = {
       buttonDay[2].addEventListener('click', () => {
         sessionActiveElement.innerHTML = '';
 
-        GetData('http://192.168.0.139:8001/items/session?filter[day(start_time)][_eq]=05').then((result) => {
+        GetData('http://192.168.18.66:8001/items/session?filter[day(start_time)][_eq]=05').then((result) => {
           result.map((data) => {
             sessionActiveElement.innerHTML += sessionActive(data);
           })

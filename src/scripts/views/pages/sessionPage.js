@@ -46,8 +46,8 @@ const sessionPage = {
 
 
     Promise.all([
-      GetData('http://192.168.18.66:8001/items/day'),
-      GetData('http://192.168.18.66:8002/items/registration?aggregate[countDistinct]=id_participant&filter[validated_on][_between]=[2020-01-1,2200-12-12]'),
+      GetData('https://api-ticket.arisukarno.xyz/items/day'),
+      GetData('https://checkin.nvia.xyz/items/registration?aggregate[countDistinct]=customer_id&filter[validated_on][_between]=[2020-01-1,2200-12-12]'),
     ]).then(async([res1, res2]) => {
       res1.map((data) => {
         dayElement.innerHTML += day(data)
@@ -63,7 +63,7 @@ const sessionPage = {
       buttonDay[0].addEventListener('click', () => {
         sessionActiveElement.innerHTML = '';
 
-        GetData('http://192.168.18.66:8001/items/session?filter[day(start_time)][_eq]=01').then((result) => {
+        GetData('https://api-ticket.arisukarno.xyz/items/session?filter[day(start_time)][_eq]=01').then((result) => {
           result.map((data) => {
             sessionActiveElement.innerHTML += sessionActive(data);
           })
@@ -73,7 +73,7 @@ const sessionPage = {
       buttonDay[1].addEventListener('click', () => {
         sessionActiveElement.innerHTML = '';
 
-        GetData('http://192.168.18.66:8001/items/session?filter[day(start_time)][_eq]=03').then((result) => {
+        GetData('https://api-ticket.arisukarno.xyz/items/session?filter[day(start_time)][_eq]=03').then((result) => {
           result.map((data) => {
             sessionActiveElement.innerHTML += sessionActive(data);
           })
@@ -83,7 +83,7 @@ const sessionPage = {
       buttonDay[2].addEventListener('click', () => {
         sessionActiveElement.innerHTML = '';
 
-        GetData('http://192.168.18.66:8001/items/session?filter[day(start_time)][_eq]=05').then((result) => {
+        GetData('https://api-ticket.arisukarno.xyz/items/session?filter[day(start_time)][_eq]=05').then((result) => {
           result.map((data) => {
             sessionActiveElement.innerHTML += sessionActive(data);
           })

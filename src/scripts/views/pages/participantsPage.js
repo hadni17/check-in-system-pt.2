@@ -39,7 +39,7 @@ const participantPage = {
   
   $(document).ready(function() {
     var table = $('#table-id').DataTable( {
-        "ajax": "http://192.168.18.66:8003/items/registration",
+        "ajax": "https://checkin.nvia.xyz/items/registration",
         "bInfo" : true,
         "columns": [
           { data: "name"},

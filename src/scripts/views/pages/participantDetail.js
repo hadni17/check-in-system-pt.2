@@ -91,12 +91,12 @@ const participantDetail = {
     `<p class="font-bold text-xs py-2">${ data.session_id}</p> `;
 
     Promise.all([
-      GetData(`http://192.168.18.66:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
-      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
-      GetData(`http://192.168.18.66:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name,customer_x_merch_id.id_ticket&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
-      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
-      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
-      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
+      GetData(`http://192.168.0.146:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
+      GetData(`http://192.168.0.146:8003/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
+      GetData(`http://192.168.0.146:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name,customer_x_merch_id.id_ticket&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
+      GetData(`http://192.168.0.146:8003/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
+      GetData(`http://192.168.0.146:8003/items/registration?filter[customer_id]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
+      GetData(`http://192.168.0.146:8003/items/registration?filter[customer_id]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
     ]).then(async([res1, res2, res3, res4, res5, res6]) => {
       res1.map((data) => {
         elementName.innerHTML = participantName(data);
@@ -182,7 +182,7 @@ const participantDetail = {
       e.preventDefault();
       e.stopPropagation();
 
-      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&filter[session_id]=${idSession}`).then( async (result) => {
+      GetData(`http://192.168.0.146:8003/items/registration?filter[customer_id]=${idParticipant}&filter[session_id]=${idSession}`).then( async (result) => {
       // console.log(result);
       const id_session = result[0].id;
         
@@ -191,7 +191,7 @@ const participantDetail = {
           "merch_name": checkboxItem.toString()
         }
 
-        const response =  await fetch(`http://192.168.18.66:8003/items/registration/${id_session}`, {
+        const response =  await fetch(`http://192.168.0.146:8003/items/registration/${id_session}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json'

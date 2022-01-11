@@ -91,11 +91,11 @@ const participantDetail = {
     `;
 
     Promise.all([
-      GetData(`http://192.168.18.66:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
-      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
-      GetData(`http://192.168.18.66:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name,customer_x_merch_id.id_ticket&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
-      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
-      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
+      GetData(`https://api-ticket.arisukarno.xyz/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
+      GetData(`https://checkin.nvia.xyz/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
+      GetData(`https://checkin.nvia.xyz/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name,customer_x_merch_id.id_ticket&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
+      GetData(`https://checkin.nvia.xyz/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
+      GetData(`https://checkin.nvia.xyz/items/registration?filter[customer_id]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
     ]).then(async([res1, res2, res3, res4, res5]) => {
       res1.map((data) => {
         elementName.innerHTML = participantName(data);
@@ -165,41 +165,61 @@ const participantDetail = {
       console.log(err)
     });
 
-
     buttonSubmit.addEventListener('click', async (e) => {
       e.preventDefault();
       e.stopPropagation();
 
-      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&filter[session_id]=${idSession}`).then( async (result) => {
+      GetData(`https://checkin.nvia.xyz/items/registration?filter[customer_id]=${idParticipant}&filter[session_id]=${idSession}`).then( async (result) => {
       // console.log(result);
       const id_session = result[0].id;
+      console.log(id_session)
         
         const payload = {
           "validated_on": new Date(),
           "merch_name": checkboxItem.toString()
         }
 
-        const response =  await fetch(`http://192.168.18.66:8003/items/registration/${id_session}`, {
+        const response =  await fetch(`https://checkin.nvia.xyz/items/registration/${id_session}`, {
+          Host: 'https://checkin.nvia.xyz',
           method: 'PATCH',
           headers: {
-            'Content-Type': 'application/json'
+            'Accept-Patch': 'application/json',
+            'Content-Type': 'application/json',
+
           },
           body: JSON.stringify(payload)
+         
+        }).then((response) => {
+          if (response.ok) { 
+            swal.fire({
+              title: "HORE!",
+              text: "Data Berhasil di Update",
+              icon: "success",
+              confirmButtonColor: '#378805',
+          }).then(function() {
+            location.href = "http://localhost:8080";
+          });
+           return response.json();
+          }
+          return Promise.reject(response); 
         })
+        .then((result) => { 
+          console.log(result); 
+        })
+        .catch((error) => {
+          swal.fire({
+            title: "Oops...",
+            text: "Data gagal di input",
+            icon: "error",
+            confirmButtonColor: '#D21404',
+        })
+          console.log('Something went wrong.', error); 
+        });
 
-        // console.log(payload);
-      })
 
-      swal.fire({
-        title: "HORE!",
-        text: "Data Berhasil di Update",
-        icon: "success",
-        confirmButtonColor: '#378805',
-        closeOnConfirm: false,
-        closeOnCancel: false
-    }).then(function() {
-      location.href = "http://localhost:8080";
-    });
+      });
+
+      
 
 
     })

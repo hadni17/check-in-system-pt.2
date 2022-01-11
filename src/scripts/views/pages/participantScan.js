@@ -180,11 +180,10 @@ const participantDetail = {
         }
 
         const response =  await fetch(`https://checkin.nvia.xyz/items/registration/${id_session}`, {
-          Host: 'https://checkin.nvia.xyz',
           method: 'PATCH',
           headers: {
-            'Accept-Patch': 'application/json',
-            'Content-Type': 'application/json',
+            Accept: "application/json",
+            "Content-Type": "application/json"
 
           },
           body: JSON.stringify(payload)

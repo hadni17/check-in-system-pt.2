@@ -1,7 +1,7 @@
 const participantPage = {
   async render() {
     return `
-  <section class="w-full mx-auto bg-bottom ">
+        <section class="mx-auto pb-40">
           <div class="flex items-center justify-between pt-2">
             <button>
               <a href="/#/">
@@ -22,10 +22,10 @@ const participantPage = {
           <div id="userstable_filter" class="dataTables_length"></div>
               <thead class="sticky -top-0.5">
               <tr>
-                  <th class="bg-white rounded">Nama</th>
+                  <th class="bg-white">Nama</th>
                   <th class="bg-white">ID</th>
                   <th class="bg-white">Session</th>
-                  <th class="bg-white rounded">Action</th>
+                  <th class="bg-white">Action</th>
               </tr>
               </thead>
               <tbody id="customer" class="text-center text-sm"></tbody>
@@ -39,14 +39,14 @@ const participantPage = {
   
   $(document).ready(function() {
     var table = $('#table-id').DataTable( {
-        "ajax": "https://checkin.nvia.xyz/items/registration",
+        "ajax": "https://checkin.nvia.xyz/items/registration?fields=session_id,customer_id.id,customer_id.name",
         "bInfo" : true,
         "columns": [
-          { data: "name"},
-          { data: "customer_id"},
+          { data: "customer_id.name"},
+          { data: "customer_id.id"},
           { data: "session_id"}, 
           { data: null }
-        ], 
+        ],
         "scrollY":"473px",
         "scrollCollapse": true,
         "pagingType":"simple_numbers",
@@ -58,13 +58,12 @@ const participantPage = {
               sPrevious: ' <button class="px-4 py-2 my-1 text-white bg-blue-500 rounded-full hover:bg-gray-700 hover:text-black" > < <button class="sr-only ">(current)</button>',
         }
       },
-      
+
       "columnDefs": [{
       "targets": -1,
       "data": null,
       "render": function(data, type, row, meta) {
-        console.log(data);
-          return `<a href="/#/participant/${data.customer_id}-"><button class='bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 md:py-2 md:px-4 rounded-full m-1'>Detail</button></a>`
+          return `<a href="/#/participant/${data.customer_id.id}-${data.session_id}"><button class='bg-blue-500 hover:bg-gray-700 text-white font-bold px-2 md:py-2 md:px-4 rounded-full m-1'>Detail</button></a>`
       }
       }],
     initComplete: function () {
@@ -97,7 +96,6 @@ const participantPage = {
       const data = table.row( $(this).parents('tr') ).data();
     });
   });
-
   }
 };
 

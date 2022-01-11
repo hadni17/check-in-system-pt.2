@@ -15,8 +15,7 @@ const description =(data) =>`
 `;
 
 const registration = (data) => `
-  <p class="text-gray-400 pt-4 font-medium text-xs">CHECK-IN TIME</p>
-  <p class="font-bold text-xs py-2">${ moment(data.min.validated_on).format('LLLL') }</p>
+  <p class="font-bold text-xs py-2">${ moment(data.min.validated_on).format('LLL') }</p>
 `;
 
 const merchandise = (data, checked) => `
@@ -38,7 +37,7 @@ const buttonElement = `
 `;
 
 const checkStatusElement = (data) => `
-  <div class="py-1 px-2 text-center text-white text-xs">
+  <div class="py-2 px-2 text-center text-white text-xs">
     ${data}
   </div>
 `;

@@ -4,9 +4,7 @@ import { participantName, participantId, description, registration, merchandise,
 import swal from 'sweetalert2';
 
 
-
-
-const participantScan = {
+const participantDetail = {
   async render() {
     return `
       <div class="spinner">
@@ -15,6 +13,9 @@ const participantScan = {
       <section class="w-full mx-auto pb-40 bg-bottom ">
       <!-- Navigation -->
         <div class="flex items-center justify-between">
+          <button onClick="window.history.back();" class="pl-5">
+              <span class="iconify text-4xl" data-icon="bi:arrow-left-short"></span>
+          </button>
           <h1 class="mx-auto font-semibold">Participant Scan</h1>
           <div></div>
         </div>
@@ -24,8 +25,7 @@ const participantScan = {
             <div id="custumer">
             </div>
             <!--NOTIFY CHECKED-->
-            <div id="check-status" class="rounded-lg">
-                
+            <div id="check-status" class="rounded-lg text-center">
             </div>
           </div>
           <!--GRID-->
@@ -33,22 +33,24 @@ const participantScan = {
                 <!--LEFT-->
                 <div>
                   <!--ID-->
+                 
                   <div id="participant">
+                
                   </div>
                   <div id="ticket">
-                    <p class="text-gray-400 pt-3 font-medium text-xs">TICKET TYPE</p>
-                  </div>
+                     <p class="text-gray-400 py-2 font-medium text-xs">TICKET TYPE</p>
+                   </div>
                   <div id="session"></div>
                 </div>
                 <!-- RIGHT -->
                 <div>
-                <!--CHECK-IN-->
-                <div id="registration">
-                    
-                </div>
-                <div id="session-history">
-                  <p class="text-gray-400 pt-3 font-medium text-xs">HISTORY SESSION</p>
-                </div>
+                  <!--CHECK-IN-->
+                  <div id="registration">
+                  <p class="text-gray-400 pt-4 font-medium text-xs">CHECK-IN TIME</p>
+                  </div>
+                  <div id="session-history">
+                    <p class="text-gray-400 py-2 font-medium text-xs">HISTORY SESSION</p>
+                  </div>
                 </div>
             </div>
           <!--GRID CLOSE-->
@@ -66,8 +68,9 @@ const participantScan = {
       </section>
     `;
   },
-
   async afterRender() {
+    checkboxItem = [];
+
     const { id } = UrlParser.parseActiveUrlWithoutCombiner();
     const elementName = document.querySelector('#custumer');
     const elementId = document.querySelector('#participant');
@@ -78,63 +81,68 @@ const participantScan = {
     const checkStatus = document.querySelector('#check-status');
     const spinnerElement = document.querySelector('.spinner');
     const sessionHistoryElement = document.querySelector('#session-history');
-    let merchItem = [];
-
-    // console.log(id);
 
     const idParticipant = id.split('-')[0];
     const idSession = id.split('-')[1];
-
-    // console.log('idParticipant', idParticipant);
-    // console.log('idSession', idSession);
+    let merchItem = [];
 
     const historySession = (data) => `
       <p class="font-bold text-xs py-2">${ data.session_id }</p>
     `;
 
     Promise.all([
-      GetData(`https://api-ticket.arisukarno.xyz/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
-      GetData(`https://checkin.nvia.xyz/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
-      GetData(`https://checkin.nvia.xyz/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name,customer_x_merch_id.id_ticket&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
-      GetData(`https://checkin.nvia.xyz/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
-      GetData(`https://checkin.nvia.xyz/items/registration?filter[customer_id]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
+      GetData(`http://192.168.18.66:8001/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
+      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
+      GetData(`http://192.168.18.66:8003/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name,customer_x_merch_id.id_ticket&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
+      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
+      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&filter[validated_on][_between]=[2020-01-1,2200-12-12]`),
     ]).then(async([res1, res2, res3, res4, res5]) => {
       res1.map((data) => {
-
         elementName.innerHTML = participantName(data);
         elementId.innerHTML = participantId(data);
         elementDesc.innerHTML += description(data);
       })
 
       res2.map((data) => {
+        const valid = data.min.validated_on;
+        console.log(valid)
+        if(valid == null){
+          validatedOn.innerHTML += `<p class="font-bold text-xs py-2">-</p>`;
+        } else {
+          validatedOn.innerHTML += registration(data);
+        }
         
-        validatedOn.innerHTML += registration(data);
+      
       });
 
       let firstTicket = res3[0].customer_x_merch_id.id_ticket; 
-      console.log(firstTicket);
-      
+      //console.log(firstTicket);
+
       res3.map((data) => {
         if (firstTicket == data.customer_x_merch_id.id_ticket) {
+          if(merchItem.includes(data.merch_eligible_id.merch_id.merch_name))
+          merchElement.innerHTML += merchandise(data, true);
+          else 
           merchElement.innerHTML += merchandise(data, false);
-        }       
+
+        }
       });
 
       res4.map(data => {
-
+        //console.log(data);
         const time = data.min.validated_on;
+        console.log(time)
 
                 var status = '';
         
-                const time_validated = moment(time).format('L');
                 const current_time = moment(new Date).format('L');
                 console.log(current_time)
                
-                if (time_validated > current_time) {
-                  status = 'check in';
+                if (time > current_time) {
+                  status = 'checked';
                   checkStatus.innerHTML = checkStatusElement(status)
                   checkStatus.classList.add('bg-green-500');
-                } else if (time_validated ==null){
+                } else if (time == null){
                   status = 'inactive';
                   checkStatus.innerHTML = checkStatusElement(status)
                   checkStatus.classList.add('bg-red-600');
@@ -150,7 +158,6 @@ const participantScan = {
       res5.map((data) => {
         sessionHistoryElement.innerHTML += historySession(data);
       })
-
       buttonSubmit.innerHTML = buttonElement;
 
       spinnerElement.classList.add('hidden')
@@ -163,15 +170,16 @@ const participantScan = {
       e.preventDefault();
       e.stopPropagation();
 
-      GetData(`https://checkin.nvia.xyz/items/registration?filter[customer_id]=${idParticipant}&filter[session_id]=${idSession}`).then( async (result) => {
-      const session_id = result[0].id;
+      GetData(`http://192.168.18.66:8003/items/registration?filter[customer_id]=${idParticipant}&filter[session_id]=${idSession}`).then( async (result) => {
+      // console.log(result);
+      const id_session = result[0].id;
         
         const payload = {
           "validated_on": new Date(),
           "merch_name": checkboxItem.toString()
         }
 
-        const response =  await fetch(`https://checkin.nvia.xyz/items/registration/${session_id}`, {
+        const response =  await fetch(`http://192.168.18.66:8003/items/registration/${id_session}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json'
@@ -179,6 +187,7 @@ const participantScan = {
           body: JSON.stringify(payload)
         })
 
+        // console.log(payload);
       })
 
       swal.fire({
@@ -189,7 +198,7 @@ const participantScan = {
         closeOnConfirm: false,
         closeOnCancel: false
     }).then(function() {
-        location.href = "http://localhost:8080";
+      location.href = "http://localhost:8080";
     });
 
 
@@ -197,6 +206,4 @@ const participantScan = {
   }
 };
 
-
-
-export default participantScan;
+export default participantDetail;

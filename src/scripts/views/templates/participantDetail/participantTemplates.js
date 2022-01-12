@@ -1,17 +1,17 @@
 const participantName = (data) => `
   <div class="">
     <p class="text-gray-400 pt-4 font-medium text-xs">PARTICIPANT NAME</p>
-    <p class="font-bold text-lg truncate">${data.customer_id.customer_name}</p>
+    <p class="font-bold text-lg truncate">${data.customer_id.name}</p>
   </div>
 `;
 
 const participantId = (data) => `
   <p class="text-gray-400 pt-4 font-medium text-xs">ID PARTICIPANT</p>
-  <p class="font-bold text-md py-2">${data.customer_id.customer_id}</p>
+  <p class="font-bold text-md py-2">${data.customer_id.id}</p>
 `;
 
 const description =(data) =>`
-   <p class="font-bold text-xs py-2">${data.ticket_id.ticket_type}</p>
+   <p class="font-bold text-xs py-2">${data.ticket_type}</p>
 `;
 
 const registration = (data) => `

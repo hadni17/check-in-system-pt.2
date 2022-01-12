@@ -91,7 +91,7 @@ const participantDetail = {
     `;
 
     Promise.all([
-      GetData(`https://api-ticket.arisukarno.xyz/items/order?fields=customer_id.customer_id,customer_id.customer_name,ticket_id.ticket_id,ticket_id.ticket_type&filter[customer_id]=${idParticipant}`),
+      GetData(`https://checkin.nvia.xyz/items/registration?fields=customer_id.id,customer_id.name,ticket_type&filter[customer_id]=${idParticipant}`),
       GetData(`https://checkin.nvia.xyz/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
       GetData(`https://checkin.nvia.xyz/items/customer_x_merch_eligible?fields=*,%20merch_eligible_id.merch_id.merch_name,customer_x_merch_id.id_ticket&filter[customer_x_merch_id][customer_id]=${idParticipant}`),
       GetData(`https://checkin.nvia.xyz/items/registration?filter[customer_id]=${idParticipant}&aggregate[min]=validated_on`),
@@ -170,9 +170,7 @@ const participantDetail = {
       e.stopPropagation();
 
       GetData(`https://checkin.nvia.xyz/items/registration?filter[customer_id]=${idParticipant}&filter[session_id]=${idSession}`).then( async (result) => {
-      // console.log(result);
       const id_session = result[0].id;
-      console.log(id_session)
         
         const payload = {
           "validated_on": new Date(),
@@ -182,13 +180,16 @@ const participantDetail = {
         const response =  await fetch(`https://checkin.nvia.xyz/items/registration/${id_session}`, {
           method: 'PATCH',
           headers: {
-            Accept: "application/json",
             "Content-Type": "application/json"
 
           },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({payload}),
+          
+        })
+         .then((response) => {
          
-        }).then((response) => {
+           console.log(payload)
+           console.log(result)
           if (response.ok) { 
             swal.fire({
               title: "HORE!",
@@ -212,7 +213,7 @@ const participantDetail = {
             icon: "error",
             confirmButtonColor: '#D21404',
         })
-          console.log('Something went wrong.', error); 
+          console.log(error); 
         });
 
 
